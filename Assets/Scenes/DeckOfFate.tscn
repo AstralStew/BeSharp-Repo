@@ -1,0 +1,113 @@
+[gd_scene load_steps=10 format=3 uid="uid://p180ef84ps7w"]
+
+[ext_resource type="Script" uid="uid://bisyk4bowdvsf" path="res://addons/simple_cards/deck/manager/card_deck_manager.gd" id="1_05koa"]
+[ext_resource type="Script" uid="uid://bj1c3rpld5lrr" path="res://Assets/Scripts/DeckOfFate.gd" id="1_6eug2"]
+[ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="2_u4grd"]
+[ext_resource type="Resource" uid="uid://dmu6fidigufuh" path="res://Assets/Cards/test_card_1.tres" id="3_6eug2"]
+[ext_resource type="Resource" uid="uid://brkqch3k0p0iw" path="res://Assets/Cards/test_card_2.tres" id="3_qaqnj"]
+[ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_yu6pi"]
+[ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="5_6eug2"]
+[ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="8_2lpbm"]
+
+[sub_resource type="Resource" id="Resource_qaqnj"]
+script = ExtResource("3_yu6pi")
+deck_name = &"TestDeck"
+cards = Array[ExtResource("2_u4grd")]([ExtResource("3_6eug2"), ExtResource("3_qaqnj")])
+metadata/_custom_type_script = "uid://lhb5ry3o8icy"
+
+[node name="DeckOfFate" type="CanvasLayer"]
+script = ExtResource("1_6eug2")
+
+[node name="BoardLayout" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(510.28, 734.8001)
+scale = Vector2(0.69, 0.69)
+texture = ExtResource("8_2lpbm")
+
+[node name="BoardLayout2" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0.9607843, 0.9607843, 0.9607843, 0.20784314)
+position = Vector2(517, 281.40002)
+rotation = -3.1415925
+scale = Vector2(0.69, 0.69)
+texture = ExtResource("8_2lpbm")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(1000, 1000)
+layout_mode = 2
+theme_override_constants/separation = -50
+alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.41960785)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("8_2lpbm")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+flip_v = true
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.7372549)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("8_2lpbm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardDeckManager" type="Node" parent="." node_paths=PackedStringArray("draw_pile", "discard_pile")]
+script = ExtResource("1_05koa")
+show_cards = true
+starting_deck = SubResource("Resource_qaqnj")
+draw_pile = NodePath("Draw")
+discard_pile = NodePath("Discard")
+metadata/_custom_type_script = "uid://bisyk4bowdvsf"
+
+[node name="Draw" type="Control" parent="CardDeckManager"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 771.0
+offset_top = 855.0
+offset_right = 811.0
+offset_bottom = 895.0
+script = ExtResource("5_6eug2")
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="Discard" type="Control" parent="CardDeckManager"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 172.0
+offset_top = 859.0
+offset_right = 212.0
+offset_bottom = 899.0
+script = ExtResource("5_6eug2")
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="PlayerHand" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = 277.0
+offset_right = 1.0
+offset_bottom = 277.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_6eug2")
+shape = 0
+card_spacing = 80.0
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"

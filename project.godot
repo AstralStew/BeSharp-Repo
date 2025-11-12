@@ -11,13 +11,18 @@ config_version=5
 [application]
 
 config/name="Project BeSharp"
-run/main_scene="uid://brvun6l03k0hu"
+run/main_scene="uid://p180ef84ps7w"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 CG="*res://addons/simple_cards/card_global.gd"
+
+[display]
+
+window/size/viewport_width=1024
+window/size/viewport_height=1024
 
 [editor_plugins]
 
@@ -26,3 +31,6 @@ enabled=PackedStringArray("res://addons/simple_cards/plugin.cfg")
 [rendering]
 
 renderer/rendering_method="mobile"
+environment/size/viewport_height=648
+environment/size/viewport_width=1152
+environment/main_scene="uid://brvun6l03k0hu"
