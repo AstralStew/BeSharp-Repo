@@ -14,6 +14,14 @@ config/name="Project BeSharp"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+CG="*res://addons/simple_cards/card_global.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/simple_cards/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="mobile"
