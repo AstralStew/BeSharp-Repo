@@ -1,5 +1,5 @@
 extends CanvasLayer
-
+#Runs the game
 
 @onready var card_deck_manager: CardDeckManager = $CardDeckManager
 #@onready var balatro_hand: Hand = $BalatroHand

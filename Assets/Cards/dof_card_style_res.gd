@@ -1,5 +1,5 @@
-class_name TestCardStyleResource extends CardResource
-
+class_name DofCardStyleResource extends CardResource
+#this defines card values
 @export var name: String
 @export var top_texture: Texture2D
 #@export var current_modiffier: modiffier = modiffier.NONE
