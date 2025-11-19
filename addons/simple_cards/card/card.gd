@@ -116,6 +116,7 @@ func _on_button_up() -> void:
 	if holding:
 		holding = false 
 		CG.current_held_item = null
+		release_focus()
 	else:
 		card_clicked.emit(self)
 

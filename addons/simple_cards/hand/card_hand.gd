@@ -171,15 +171,18 @@ func _disconnect_card_signals(card: Card) -> void:
 
 
 func _on_card_focused(card: Card) -> void:
+	print("[CardHand] OnCardFocussed")
 	var focus_z = 900
 	card.z_index = focus_z
 
 
 func _on_card_unfocused(card: Card) -> void:
+	print("[CardHand] OnCardUnfocussed")
 	_update_z_indices()
 
 
 func _on_card_dropped() -> void:
+	print("[CardHand] OnCardDropped")
 	_arrange_cards()
 	_dragged_card = null
 
