@@ -1,11 +1,33 @@
-extends CanvasLayer
+class_name DeckOfFate extends CanvasLayer
 #Runs the game
 
-@onready var card_deck_manager: CardDeckManager = $CardDeckManager
+@export_category("REFERENCES")
+@onready var dof_deck_manager: DoFDeckManager = $DoFDeckManager
 #@onready var balatro_hand: Hand = $BalatroHand
 @onready var player_hand: CardHand = $PlayerHand
+@onready var leader_slot: CardHand = $LeaderSlot
+@onready var support_slot: CardHand = $SupportSlot
+@onready var victory_slot_1: CardHand = $VictoryDisplay/VictorySlot1
+@onready var victory_slot_2: CardHand = $VictoryDisplay/VictorySlot2
+@onready var victory_slot_3: CardHand = $VictoryDisplay/VictorySlot3
+@onready var victory_slot_4: CardHand = $VictoryDisplay/VictorySlot4
+@onready var victory_slot_5: CardHand = $VictoryDisplay/VictorySlot5
+@onready var victory_slot_6: CardHand = $VictoryDisplay/VictorySlot6
+@onready var phase_label: RichTextLabel = $PhaseLabel
 
 
+@export_category("READ ONLY")
+@export var current_phase : phases = phases.TurnStart
+@export var first_draw_completed : bool = false
+@export var waiting_for_card : bool = false
+@export var waiting_for_slot : bool = false
+@export var selected_card : Card = null
+@export var selected_slot : CardSlot = null
+
+enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Battle, BacklineLeader, BacklineSupport, TurnEnd}
+
+signal card_selected
+signal slot_selected
 
 #@onready var gold_button: Button = %GoldButton
 #@onready var silv_button: Button = %SilvButton
@@ -37,18 +59,97 @@ func _ready() -> void:
 	#print(balatro_hand.max_hand_size)
 	#hand_size = balatro_hand.max_hand_size
 	
-	card_deck_manager.setup()
+	dof_deck_manager.setup()
 	await get_tree().create_timer(1).timeout 
-	deal()
+	#deal()
+	_next_phase()
+
+
+func _next_phase() -> void:
+	if first_draw_completed:
+		current_phase = ((current_phase + 1) % phases.size()) as phases
+	
+	phase_label.text = phases.keys()[current_phase]
+	tween_visibility(phase_label,Color(1,1,1,1),0.5,Tween.EaseType.EASE_OUT,Tween.TransitionType.TRANS_LINEAR)
+	await get_tree().create_timer(1).timeout 
+	tween_visibility(phase_label,Color(1,1,1,0),0.5,Tween.EaseType.EASE_IN,Tween.TransitionType.TRANS_LINEAR)
+	await get_tree().create_timer(0.51).timeout 
+	
+	match current_phase:
+		phases.TurnStart:
+			deal()
+		
+		phases.PickLeader:
+			waiting_for_card = true
+			await card_selected
+			selected_card.flip()
+			selected_card.undraggable = true
+			#selected_card.focus_mode = Control.FOCUS_NONE
+			selected_card.disabled = true
+			leader_slot.add_card(selected_card)
+			selected_card = null
+		
+		phases.PickSupport:
+			waiting_for_card = true
+			await card_selected
+			selected_card.flip()
+			selected_card.undraggable = true
+			#selected_card.focus_mode = Control.FOCUS_NONE
+			selected_card.disabled = true
+			support_slot.add_card(selected_card)
+			selected_card = null
+		
+		phases.RevealSupport:
+			support_slot.get_card(0).flip()
+		
+		phases.RevealLeader:
+			leader_slot.get_card(0).flip()
+		
+		phases.Battle:
+			pass
+		
+		phases.BacklineLeader:
+			waiting_for_slot = true
+			await slot_selected
+			selected_slot.add_card(leader_slot.get_card(0))
+			selected_slot = null
+		
+		phases.BacklineSupport:
+			waiting_for_slot = true
+			await slot_selected
+			selected_slot.add_card(support_slot.get_card(0))
+			selected_slot = null
+		
+		phases.TurnEnd:
+			pass
+	
+	await get_tree().create_timer(1).timeout 
+	_next_phase()
 	
 
+func select_card(card: Card) -> void:
+	if !waiting_for_card: return
+	print("[DeckOfFate] Selected card: ",card)
+	waiting_for_card = false
+	selected_card = card
+	card_selected.emit()
+	
+func select_slot(slot: CardSlot) -> void:
+	if !waiting_for_slot: return
+	print("[DeckOfFate] Selected slot: ",slot)
+	waiting_for_slot = false
+	selected_slot = slot
+	slot_selected.emit()
 
 func deal():
 	#var to_deal: int = min(hand_size, balatro_hand.get_remaining_space())
 	#if to_deal < 0:
 		#to_deal = 7
-	
-	player_hand.add_cards(card_deck_manager.draw_cards(4))
+	if !first_draw_completed:
+		player_hand.add_cards(dof_deck_manager.draw_cards(4))
+		first_draw_completed = true
+		return
+	player_hand.add_cards(dof_deck_manager.draw_cards(2))
 	
 	#if card_deck_manager.get_draw_pile_size() >= to_deal:
 		#balatro_hand.add_cards(card_deck_manager.draw_cards(to_deal))
@@ -62,6 +163,37 @@ func deal():
 	#
 	#if sort_by_suit: balatro_hand.sort_by_suit()
 	#else: balatro_hand.sort_by_value()
+
+
+
+##Tween the phase label
+var _visibility_tween
+func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.WHITE, duration: float = 0.5, ease:Tween.EaseType=Tween.EASE_OUT,trans:Tween.TransitionType=Tween.TRANS_LINEAR) -> void:
+	if _visibility_tween:
+		_visibility_tween.kill()
+	_visibility_tween = create_tween().set_ease(ease).set_trans(trans)
+	_visibility_tween.tween_property(canvas_item, "modulate", desired_visibility, duration)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #func _on_gold_pressed() -> void:

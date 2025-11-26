@@ -1,18 +1,19 @@
-[gd_scene load_steps=10 format=3 uid="uid://p180ef84ps7w"]
+[gd_scene load_steps=11 format=3 uid="uid://p180ef84ps7w"]
 
-[ext_resource type="Script" uid="uid://bisyk4bowdvsf" path="res://addons/simple_cards/deck/manager/card_deck_manager.gd" id="1_05koa"]
 [ext_resource type="Script" uid="uid://bj1c3rpld5lrr" path="res://Assets/Scripts/DeckOfFate.gd" id="1_6eug2"]
 [ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="2_u4grd"]
+[ext_resource type="Script" uid="uid://cj7pttaxyo1v0" path="res://Assets/Scripts/DoFDeckManager.gd" id="3_2lpbm"]
 [ext_resource type="Resource" uid="uid://dmu6fidigufuh" path="res://Assets/Cards/test_card_1.tres" id="3_6eug2"]
 [ext_resource type="Resource" uid="uid://brkqch3k0p0iw" path="res://Assets/Cards/test_card_2.tres" id="3_qaqnj"]
 [ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_yu6pi"]
 [ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="5_6eug2"]
 [ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="8_2lpbm"]
+[ext_resource type="Script" uid="uid://v4hj4p4kc0m" path="res://Assets/Scripts/card_slot.gd" id="9_nmsih"]
 
 [sub_resource type="Resource" id="Resource_qaqnj"]
 script = ExtResource("3_yu6pi")
 deck_name = &"TestDeck"
-cards = Array[ExtResource("2_u4grd")]([ExtResource("3_6eug2"), ExtResource("3_qaqnj")])
+cards = Array[ExtResource("2_u4grd")]([ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_qaqnj"), ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_6eug2")])
 metadata/_custom_type_script = "uid://lhb5ry3o8icy"
 
 [node name="DeckOfFate" type="CanvasLayer"]
@@ -51,15 +52,15 @@ texture = ExtResource("8_2lpbm")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CardDeckManager" type="Node" parent="." node_paths=PackedStringArray("draw_pile", "discard_pile")]
-script = ExtResource("1_05koa")
+[node name="DoFDeckManager" type="Node" parent="." node_paths=PackedStringArray("draw_pile", "discard_pile")]
+script = ExtResource("3_2lpbm")
 show_cards = true
 starting_deck = SubResource("Resource_qaqnj")
 draw_pile = NodePath("Draw")
 discard_pile = NodePath("Discard")
-metadata/_custom_type_script = "uid://bisyk4bowdvsf"
+metadata/_custom_type_script = "uid://cj7pttaxyo1v0"
 
-[node name="Draw" type="Control" parent="CardDeckManager"]
+[node name="Draw" type="Control" parent="DoFDeckManager"]
 custom_minimum_size = Vector2(90, 122)
 layout_mode = 3
 anchors_preset = 3
@@ -75,19 +76,21 @@ grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("5_6eug2")
 shape = 0
+card_spacing = 0.0
 enable_reordering = false
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="CardDeckManager/Draw"]
+[node name="ColorRect" type="ColorRect" parent="DoFDeckManager/Draw"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 1, 0.20000005, 0.5019608)
 
-[node name="Discard" type="Control" parent="CardDeckManager"]
+[node name="Discard" type="Control" parent="DoFDeckManager"]
 custom_minimum_size = Vector2(90, 122)
 layout_mode = 3
 anchors_preset = 0
@@ -96,15 +99,19 @@ offset_top = 878.0
 offset_right = 239.0
 offset_bottom = 1000.0
 script = ExtResource("5_6eug2")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="CardDeckManager/Discard"]
+[node name="ColorRect" type="ColorRect" parent="DoFDeckManager/Discard"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.5019608)
 
 [node name="PlayerHand" type="Control" parent="."]
@@ -131,6 +138,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.22526532, 0.2252653, 0.2252653, 0.5019608)
 
 [node name="VictoryDisplay" type="HBoxContainer" parent="."]
@@ -145,133 +153,168 @@ offset_right = 280.0
 offset_bottom = 335.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 100
 alignment = 1
 
 [node name="VictorySlot1" type="Control" parent="VictoryDisplay"]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 2
-script = ExtResource("5_6eug2")
+size_flags_vertical = 4
+script = ExtResource("9_nmsih")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
 [node name="VictorySlot2" type="Control" parent="VictoryDisplay"]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 2
-script = ExtResource("5_6eug2")
+size_flags_vertical = 4
+script = ExtResource("9_nmsih")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
 [node name="VictorySlot3" type="Control" parent="VictoryDisplay"]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 2
-script = ExtResource("5_6eug2")
+size_flags_vertical = 4
+script = ExtResource("9_nmsih")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
 [node name="VictorySlot4" type="Control" parent="VictoryDisplay"]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 2
-script = ExtResource("5_6eug2")
+size_flags_vertical = 4
+script = ExtResource("9_nmsih")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
 [node name="VictorySlot5" type="Control" parent="VictoryDisplay"]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 2
-script = ExtResource("5_6eug2")
+size_flags_vertical = 4
+script = ExtResource("9_nmsih")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot5"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
 [node name="VictorySlot6" type="Control" parent="VictoryDisplay"]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 2
-script = ExtResource("5_6eug2")
+size_flags_vertical = 4
+script = ExtResource("9_nmsih")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot6"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
 [node name="LeaderSlot" type="Control" parent="."]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -45.0
-offset_top = 13.0
-offset_right = 45.0
-offset_bottom = 135.0
+offset_top = 82.0
+offset_bottom = 82.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_6eug2")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
@@ -280,27 +323,32 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(1, 0, 0, 0.5019608)
 
 [node name="SupportSlot" type="Control" parent="."]
-custom_minimum_size = Vector2(90, 122)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 77.0
-offset_top = 54.0
-offset_right = 167.0
-offset_bottom = 176.0
+offset_left = 121.0
+offset_top = 110.0
+offset_right = 121.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_6eug2")
 shape = 0
-card_spacing = 80.0
+card_spacing = 0.0
+enable_reordering = false
 max_hand_size = 1
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
@@ -309,6 +357,42 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0.01666689, 1, 0.5019608)
+mouse_filter = 2
+color = Color(0, 0.049999714, 1, 0.5019608)
+
+[node name="PhaseLabel" type="RichTextLabel" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(1000, 50)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -27.5
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 40
+text = "Phase"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="PhaseLabel"]
+modulate = Color(1, 1, 1, 0.31764707)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
