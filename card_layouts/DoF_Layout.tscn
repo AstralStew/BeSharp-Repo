@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bk08qonx7jwtp"]
+[gd_scene load_steps=3 format=3 uid="uid://bk08qonx7jwtp"]
 
-[ext_resource type="Script" uid="uid://dm115oleoggyt" path="res://addons/simple_cards/card/card_layout/card_layout.gd" id="1_f4jaf"]
-[ext_resource type="Texture2D" uid="uid://dgt4r22o0j5bq" path="res://Assets/Images/Dragon.png" id="2_66gc6"]
+[ext_resource type="Script" uid="uid://cln0uu60h8cyj" path="res://card_layouts/DoF_style.gd" id="1_fjfib"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0a68r"]
 bg_color = Color(0, 0.72156864, 0.3019608, 0.4862745)
@@ -16,10 +15,10 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 corner_detail = 16
 
-[node name="FrontCardLayout" type="SubViewportContainer"]
+[node name="DoF_layout" type="SubViewportContainer"]
 offset_right = 80.0
 offset_bottom = 112.0
-script = ExtResource("1_f4jaf")
+script = ExtResource("1_fjfib")
 metadata/_custom_type_script = "uid://dm115oleoggyt"
 
 [node name="SubViewport" type="SubViewport" parent="."]
@@ -28,6 +27,7 @@ size = Vector2i(80, 112)
 render_target_update_mode = 4
 
 [node name="PanelContainer" type="PanelContainer" parent="SubViewport"]
+unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -37,12 +37,12 @@ size_flags_stretch_ratio = 2.99
 theme_override_styles/panel = SubResource("StyleBoxFlat_0a68r")
 
 [node name="TextureRect" type="TextureRect" parent="SubViewport"]
+unique_name_in_owner = true
 offset_left = 4.0
 offset_top = 41.0
 offset_right = 80.0
 offset_bottom = 112.69531
 size_flags_vertical = 3
-texture = ExtResource("2_66gc6")
 expand_mode = 5
 stretch_mode = 4
 
@@ -52,10 +52,10 @@ offset_right = 65.0
 offset_bottom = 25.0
 
 [node name="Label" type="Label" parent="SubViewport/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Dragon"
 
 [node name="Label2" type="Label" parent="SubViewport/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
-text = "5"

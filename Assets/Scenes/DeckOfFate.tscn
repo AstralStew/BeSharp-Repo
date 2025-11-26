@@ -1,19 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://p180ef84ps7w"]
+[gd_scene load_steps=10 format=3 uid="uid://p180ef84ps7w"]
 
 [ext_resource type="Script" uid="uid://bj1c3rpld5lrr" path="res://Assets/Scripts/DeckOfFate.gd" id="1_6eug2"]
 [ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="2_u4grd"]
-[ext_resource type="Script" uid="uid://cj7pttaxyo1v0" path="res://Assets/Scripts/DoFDeckManager.gd" id="3_2lpbm"]
-[ext_resource type="Resource" uid="uid://dmu6fidigufuh" path="res://Assets/Cards/test_card_1.tres" id="3_6eug2"]
-[ext_resource type="Resource" uid="uid://brkqch3k0p0iw" path="res://Assets/Cards/test_card_2.tres" id="3_qaqnj"]
+[ext_resource type="Script" path="res://Assets/Scripts/DoFDeckManager.gd" id="3_2lpbm"]
 [ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_yu6pi"]
+[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="5_2lpbm"]
 [ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="5_6eug2"]
 [ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="8_2lpbm"]
-[ext_resource type="Script" uid="uid://v4hj4p4kc0m" path="res://Assets/Scripts/card_slot.gd" id="9_nmsih"]
+[ext_resource type="Script" path="res://Assets/Scripts/card_slot.gd" id="9_nmsih"]
 
 [sub_resource type="Resource" id="Resource_qaqnj"]
 script = ExtResource("3_yu6pi")
 deck_name = &"TestDeck"
-cards = Array[ExtResource("2_u4grd")]([ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_qaqnj"), ExtResource("3_6eug2"), ExtResource("3_qaqnj"), ExtResource("3_6eug2")])
+cards = Array[ExtResource("2_u4grd")]([ExtResource("5_2lpbm"), ExtResource("5_2lpbm"), ExtResource("5_2lpbm"), ExtResource("5_2lpbm"), ExtResource("5_2lpbm")])
 metadata/_custom_type_script = "uid://lhb5ry3o8icy"
 
 [node name="DeckOfFate" type="CanvasLayer"]
@@ -58,7 +57,6 @@ show_cards = true
 starting_deck = SubResource("Resource_qaqnj")
 draw_pile = NodePath("Draw")
 discard_pile = NodePath("Discard")
-metadata/_custom_type_script = "uid://cj7pttaxyo1v0"
 
 [node name="Draw" type="Control" parent="DoFDeckManager"]
 custom_minimum_size = Vector2(90, 122)
@@ -164,7 +162,6 @@ shape = 0
 card_spacing = 0.0
 enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot1"]
 layout_mode = 1
@@ -188,7 +185,6 @@ shape = 0
 card_spacing = 0.0
 enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot2"]
 layout_mode = 1
@@ -212,7 +208,6 @@ shape = 0
 card_spacing = 0.0
 enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot3"]
 layout_mode = 1
@@ -236,7 +231,6 @@ shape = 0
 card_spacing = 0.0
 enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot4"]
 layout_mode = 1
@@ -260,7 +254,6 @@ shape = 0
 card_spacing = 0.0
 enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot5"]
 layout_mode = 1
@@ -284,7 +277,6 @@ shape = 0
 card_spacing = 0.0
 enable_reordering = false
 max_hand_size = 1
-metadata/_custom_type_script = "uid://v4hj4p4kc0m"
 
 [node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot6"]
 layout_mode = 1
