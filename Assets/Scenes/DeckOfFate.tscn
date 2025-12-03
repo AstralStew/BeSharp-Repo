@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_yu6pi"]
 [ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="5_2lpbm"]
 [ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="5_6eug2"]
-[ext_resource type="Resource" uid="uid://dxvrs554ytdp6" path="res://Assets/Cards/DoF_Assassin.tres" id="6_b8s1p"]
-[ext_resource type="Resource" uid="uid://bwf40d8nop3cl" path="res://Assets/Cards/DoF_Demon.tres" id="7_rveja"]
+[ext_resource type="Resource" path="res://Assets/Cards/DoF_Assassin.tres" id="5_b8s1p"]
+[ext_resource type="Resource" uid="uid://bwf40d8nop3cl" path="res://Assets/Cards/DoF_Demon.tres" id="6_rveja"]
 [ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="8_2lpbm"]
 [ext_resource type="Resource" uid="uid://cjf3vjpx4b67n" path="res://Assets/Cards/DoF_Jester.tres" id="8_spmp6"]
 [ext_resource type="Resource" uid="uid://b0jdfici4m77s" path="res://Assets/Cards/DoF_knight.tres" id="9_khlxv"]
@@ -19,12 +19,12 @@
 [ext_resource type="Resource" uid="uid://co7yx0fggrdvt" path="res://Assets/Cards/DoF_Squire.tres" id="14_7s0l1"]
 [ext_resource type="Resource" uid="uid://bh501i87ccdbm" path="res://Assets/Cards/DoF_Thief.tres" id="15_hu0gv"]
 [ext_resource type="Resource" uid="uid://ca6b5gvvqwy7" path="res://Assets/Cards/DoF_Witch.tres" id="16_lpu51"]
-[ext_resource type="Resource" uid="uid://c03c0g7jrojio" path="res://Assets/Cards/DoF_Wizard.tres" id="17_0vgg4"]
+[ext_resource type="Resource" path="res://Assets/Cards/DoF_Wizard.tres" id="17_0vgg4"]
 
 [sub_resource type="Resource" id="Resource_qaqnj"]
 script = ExtResource("3_yu6pi")
 deck_name = &"TestDeck"
-cards = Array[ExtResource("2_u4grd")]([ExtResource("5_2lpbm"), ExtResource("6_b8s1p"), ExtResource("7_rveja"), ExtResource("8_spmp6"), ExtResource("9_khlxv"), ExtResource("10_ehpuh"), ExtResource("11_e2vai"), ExtResource("12_dcd3x"), ExtResource("13_atm20"), ExtResource("14_7s0l1"), ExtResource("15_hu0gv"), ExtResource("16_lpu51"), ExtResource("17_0vgg4")])
+cards = Array[ExtResource("2_u4grd")]([ExtResource("5_b8s1p"), ExtResource("6_rveja"), ExtResource("5_2lpbm"), ExtResource("8_spmp6"), ExtResource("9_khlxv"), ExtResource("10_ehpuh"), ExtResource("11_e2vai"), ExtResource("12_dcd3x"), ExtResource("13_atm20"), ExtResource("14_7s0l1"), ExtResource("15_hu0gv"), ExtResource("16_lpu51"), ExtResource("17_0vgg4")])
 metadata/_custom_type_script = "uid://lhb5ry3o8icy"
 
 [node name="DeckOfFate" type="CanvasLayer"]
@@ -63,7 +63,8 @@ texture = ExtResource("8_2lpbm")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="P1ScoreDesc_VB" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -72,10 +73,48 @@ offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="P1ScoreDesc_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB"]
 layout_mode = 2
 text = "P1 Score"
 fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P1Score_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "0"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2ScoreDesc_VB" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -30.5
+offset_bottom = 30.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="P2ScoreDesc_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB"]
+layout_mode = 2
+text = "P2 Score"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2Score_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "0"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DoFDeckManager" type="Node" parent="." node_paths=PackedStringArray("draw_pile", "discard_pile")]
 script = ExtResource("3_2lpbm")

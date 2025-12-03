@@ -1,5 +1,6 @@
 @tool @icon("uid://1g0jb8x0i516")
 class_name CardSlot extends CardHand
+# THIS IS OURS! We made this class from scratch!
 
 var deckOfFate : DeckOfFate = null
 

@@ -13,6 +13,8 @@ class_name DeckOfFate extends CanvasLayer
 @onready var victory_slot_5: CardHand = $VictoryDisplay/VictorySlot5
 @onready var victory_slot_6: CardHand = $VictoryDisplay/VictorySlot6
 @onready var phase_label: RichTextLabel = $PhaseLabel
+@onready var p1_score_label: RichTextLabel = $P1ScoreDesc_VB/P1Score_RTL
+@onready var p2_score_label: RichTextLabel = $P2ScoreDesc_VB/P2Score_RTL
 
 
 @export_category("READ ONLY")
@@ -37,108 +39,150 @@ func _init() -> void:
 	CG.def_front_layout = "Default"
 
 func _ready() -> void:
+	dof_deck_manager.setup()	
+	_start_game()
+
+
+
+func _start_game() -> void:
 	
-	CG.def_front_layout = "Default"
+	# Reset the listed scores
+	p1_score_label.text = "0"
+	p2_score_label.text = "0"
 	
-	dof_deck_manager.setup()
+	# Start the "next phase" loop
 	await get_tree().create_timer(1).timeout 
-	
 	_next_phase()
 
 
 func _next_phase() -> void:
+	# Increment phase enum (except for the first draw)
 	if first_draw_completed:
 		current_phase = ((current_phase + 1) % phases.size()) as phases
 	
+	# Tell the players which phase we are in
 	phase_label.text = phases.keys()[current_phase]
 	tween_visibility(phase_label,Color(1,1,1,1),0.5,Tween.EaseType.EASE_OUT,Tween.TransitionType.TRANS_LINEAR)
 	await get_tree().create_timer(1).timeout 
 	tween_visibility(phase_label,Color(1,1,1,0),0.5,Tween.EaseType.EASE_IN,Tween.TransitionType.TRANS_LINEAR)
 	await get_tree().create_timer(0.51).timeout 
 	
+	# Check the phase enum 
 	match current_phase:
+		
+		# Deal 2 cards (or 4 on the first turn)
 		phases.TurnStart:
 			deal()
 		
 		phases.PickLeader:
+			# Wait till the player selects a card
 			waiting_for_card = true
 			await card_selected
+			# Hide + disable the card from being grabbed etc
 			selected_card.flip()
 			selected_card.undraggable = true
 			selected_card.disabled = true
+			# Add the card to the leader slot
 			leader_slot.add_card(selected_card)
 			selected_card = null
 		
 		phases.PickSupport:
+			# Wait till the player selects a card
 			waiting_for_card = true
 			await card_selected
+			# Hide + disable the card from being grabbed etc
 			selected_card.flip()
 			selected_card.undraggable = true
 			selected_card.disabled = true
+			# Add the card to the support slot
 			support_slot.add_card(selected_card)
 			selected_card = null
 		
 		phases.RevealSupport:
+			# Flip the card in the support slot
 			support_slot.get_card(0).flip()
 		
 		phases.RevealLeader:
+			# Flip the card in the leader slot
 			leader_slot.get_card(0).flip()
 		
 		phases.Battle:
+			# Grab the stats for the leader card (just ignoring 2nd player for now)
 			var p1_leader_stats = leader_slot.get_card(0).card_data as DofCardStyleResource
 			var p1_leader_strength = p1_leader_stats.strength			
 			var p2_leader_strength = 2
 			
-			print("BATTLE: My strength = ",p1_leader_strength,", opponent strength = ", p2_leader_strength)
+			# Compare the strength of the leaders and score points accordingly
+			print("[DeckOfFate] BATTLE: My strength = ",p1_leader_strength,", opponent strength = ", p2_leader_strength)
 			if p1_leader_strength > p2_leader_strength:
-				print("I WIN BATTLE! :D")
+				print("[DeckOfFate] I WIN BATTLE! :D")
 				p1_score += 1
 			elif p1_leader_strength == p2_leader_strength:
-				print("BATTLE DRAW :O")
+				print("[DeckOfFate] BATTLE DRAW :O")
 				p1_score += 1
 				p2_score += 1
 			else:
-				print("I LOSE BATTLE :(")
+				print("[DeckOfFate] I LOSE BATTLE :(")
 				p2_score += 1
+			
+			# Update the label to match the current scores
+			p1_score_label.text = str(p1_score)
+			p2_score_label.text = str(p2_score)
 		
 		phases.BacklineLeader:
+			# Wait till the player selects a backline slot
 			waiting_for_slot = true
 			await slot_selected
+			# Add card to chosen backline slot
 			selected_slot.add_card(leader_slot.get_card(0))
 			selected_slot = null
 		
 		phases.BacklineSupport:
+			# Wait till the player selects a backline slot
 			waiting_for_slot = true
 			await slot_selected
+			# Add card to chosen backline slot
 			selected_slot.add_card(support_slot.get_card(0))
 			selected_slot = null
 		
 		phases.TurnEnd:
 			pass
-	
+		
+	# Wait a second then repeat this whole function
 	await get_tree().create_timer(1).timeout 
 	_next_phase()
 	
 
+# This function is called when you click a card
+# DoFDeckManager connects each card's "card_clicked" signal to this function
 func select_card(card: Card) -> void:
+	# Cancel if we aren't waiting for a card
 	if !waiting_for_card: return
 	print("[DeckOfFate] Selected card: ",card)
+	# Tell the next_phase() loop we have selected this card
 	waiting_for_card = false
 	selected_card = card
 	card_selected.emit()
-	
+
+# This function is called when you click a slot
+# Our custom script "CardSlot" connects its signal to this function
 func select_slot(slot: CardSlot) -> void:
+	# Cancel if we aren't waiting for a slot
 	if !waiting_for_slot: return
 	print("[DeckOfFate] Selected slot: ",slot)
+	# Tell the next_phase() loop we have selected this card
 	waiting_for_slot = false
 	selected_slot = slot
 	slot_selected.emit()
 
+
 func deal():
+	# If its the first draw, add 4 cards to player's hand
 	if !first_draw_completed:
 		player_hand.add_cards(dof_deck_manager.draw_cards(4))
 		first_draw_completed = true
 		return
+	# Otherwise, add 2 cards to player's hand
 	player_hand.add_cards(dof_deck_manager.draw_cards(2))
 	
 
@@ -147,8 +191,10 @@ func deal():
 ##Tween the phase label
 var _visibility_tween
 func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.WHITE, duration: float = 0.5, ease:Tween.EaseType=Tween.EASE_OUT,trans:Tween.TransitionType=Tween.TRANS_LINEAR) -> void:
+	# If we're already tweening, kill it and start again
 	if _visibility_tween:
 		_visibility_tween.kill()
+	# Tween the transparency of whatever we're targetting 
 	_visibility_tween = create_tween().set_ease(ease).set_trans(trans)
 	_visibility_tween.tween_property(canvas_item, "modulate", desired_visibility, duration)
 
