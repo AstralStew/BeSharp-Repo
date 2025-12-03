@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="DofCardStyleResource" load_steps=3 format=3 uid="uid://cjf3vjpx4b67n"]
 
 [ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Cards/dof_card_style_res.gd" id="1_vemqa"]
-[ext_resource type="Texture2D" uid="uid://dgt4r22o0j5bq" path="res://Assets/Images/Dragon.png" id="2_ch1sp"]
+[ext_resource type="Texture2D" uid="uid://dro5n8vufk2af" path="res://Assets/Images/art/jester.jpg" id="2_vemqa"]
 
 [resource]
 script = ExtResource("1_vemqa")
 card_name = "Jester"
-top_texture = ExtResource("2_ch1sp")
+top_texture = ExtResource("2_vemqa")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"
