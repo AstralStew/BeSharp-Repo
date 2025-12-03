@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="TestCardStyleResource" load_steps=2 format=3 uid="uid://dmu6fidigufuh"]
-
-[ext_resource type="Script" uid="uid://bndai05dw2tcj" path="res://Assets/Cards/test_card_style_res.gd" id="1_atush"]
-
-[resource]
-script = ExtResource("1_atush")
-metadata/_custom_type_script = "uid://bndai05dw2tcj"

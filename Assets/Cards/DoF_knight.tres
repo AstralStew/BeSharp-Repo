@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_4tgi5")
-card_name = "my name"
+card_name = "Knight"
 strength = 4
 top_texture = ExtResource("2_ype08")
 custom_layout_name = &"DoF_Layout"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DofCardStyleResource" load_steps=3 format=3 uid="uid://ca6b5gvvqwy7"]
+
+[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Cards/dof_card_style_res.gd" id="1_e82j3"]
+[ext_resource type="Texture2D" uid="uid://dgt4r22o0j5bq" path="res://Assets/Images/Dragon.png" id="2_mlc7g"]
+
+[resource]
+script = ExtResource("1_e82j3")
+card_name = "Wizard"
+strength = 3
+top_texture = ExtResource("2_mlc7g")
+custom_layout_name = &"DoF_Layout"
+metadata/_custom_type_script = "uid://kvpm60dhjyt7"
