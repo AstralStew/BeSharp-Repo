@@ -10,3 +10,4 @@ func setup(deck: CardDeck = starting_deck):
 func add_card_to_draw_pile(card: Card) -> void:
 	super.add_card_to_draw_pile(card)
 	card.card_clicked.connect(deckOfFate.select_card)
+	card.flip()

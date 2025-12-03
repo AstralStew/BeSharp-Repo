@@ -32,14 +32,13 @@ enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Ba
 signal card_selected
 signal slot_selected
 
-
 var hand_size: int
 
 func _init() -> void:
 	CG.def_front_layout = "Default"
 
 func _ready() -> void:
-	dof_deck_manager.setup()	
+	dof_deck_manager.setup()
 	_start_game()
 
 
@@ -109,7 +108,7 @@ func _next_phase() -> void:
 		phases.Battle:
 			# Grab the stats for the leader card (just ignoring 2nd player for now)
 			var p1_leader_stats = leader_slot.get_card(0).card_data as DofCardStyleResource
-			var p1_leader_strength = p1_leader_stats.strength			
+			var p1_leader_strength = p1_leader_stats.strength
 			var p2_leader_strength = 2
 			
 			# Compare the strength of the leaders and score points accordingly
@@ -147,7 +146,10 @@ func _next_phase() -> void:
 		
 		phases.TurnEnd:
 			pass
-		
+	
+	# Arrange cards
+	arrange_decks()
+	
 	# Wait a second then repeat this whole function
 	await get_tree().create_timer(1).timeout 
 	_next_phase()
@@ -177,25 +179,41 @@ func select_slot(slot: CardSlot) -> void:
 
 
 func deal():
-	# If its the first draw, add 4 cards to player's hand
+	# Draw 4 cards on the first draw, otherwise draw 2
+	var number_of_cards_to_draw = 2
 	if !first_draw_completed:
-		player_hand.add_cards(dof_deck_manager.draw_cards(4))
+		number_of_cards_to_draw = 4
 		first_draw_completed = true
-		return
-	# Otherwise, add 2 cards to player's hand
-	player_hand.add_cards(dof_deck_manager.draw_cards(2))
 	
+	# Move the cards from the draw deck to the players hand
+	var drawn_cards = dof_deck_manager.draw_cards(number_of_cards_to_draw)
+	player_hand.add_cards(drawn_cards)
+	
+	# Flip the cards so they are revealed in hand
+	for card in drawn_cards:
+		card.flip()
 
+func arrange_decks() -> void:
+	await get_tree().create_timer(0.25).timeout 
+	leader_slot._arrange_cards()
+	support_slot._arrange_cards()
+	victory_slot_1._arrange_cards()
+	victory_slot_2._arrange_cards()
+	victory_slot_3._arrange_cards()
+	victory_slot_4._arrange_cards()
+	victory_slot_5._arrange_cards()
+	victory_slot_6._arrange_cards()
+	
 
 
 ##Tween the phase label
 var _visibility_tween
-func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.WHITE, duration: float = 0.5, ease:Tween.EaseType=Tween.EASE_OUT,trans:Tween.TransitionType=Tween.TRANS_LINEAR) -> void:
+func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.WHITE, duration: float = 0.5, ease_type:Tween.EaseType=Tween.EASE_OUT,trans_type:Tween.TransitionType=Tween.TRANS_LINEAR) -> void:
 	# If we're already tweening, kill it and start again
 	if _visibility_tween:
 		_visibility_tween.kill()
 	# Tween the transparency of whatever we're targetting 
-	_visibility_tween = create_tween().set_ease(ease).set_trans(trans)
+	_visibility_tween = create_tween().set_ease(ease_type).set_trans(trans_type)
 	_visibility_tween.tween_property(canvas_item, "modulate", desired_visibility, duration)
 
 
