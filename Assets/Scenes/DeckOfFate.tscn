@@ -63,6 +63,20 @@ texture = ExtResource("8_2lpbm")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+text = "P1 Score"
+fit_content = true
+
 [node name="DoFDeckManager" type="Node" parent="." node_paths=PackedStringArray("draw_pile", "discard_pile")]
 script = ExtResource("3_2lpbm")
 show_cards = true

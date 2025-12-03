@@ -3,7 +3,6 @@ class_name DeckOfFate extends CanvasLayer
 
 @export_category("REFERENCES")
 @onready var dof_deck_manager: DoFDeckManager = $DoFDeckManager
-#@onready var balatro_hand: Hand = $BalatroHand
 @onready var player_hand: CardHand = $PlayerHand
 @onready var leader_slot: CardHand = $LeaderSlot
 @onready var support_slot: CardHand = $SupportSlot
@@ -17,6 +16,8 @@ class_name DeckOfFate extends CanvasLayer
 
 
 @export_category("READ ONLY")
+@export var p1_score : int = 0
+@export var p2_score : int = 0
 @export var current_phase : phases = phases.TurnStart
 @export var first_draw_completed : bool = false
 @export var waiting_for_card : bool = false
@@ -29,39 +30,19 @@ enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Ba
 signal card_selected
 signal slot_selected
 
-#@onready var gold_button: Button = %GoldButton
-#@onready var silv_button: Button = %SilvButton
-#@onready var none_button: Button = %NoneButton
-#
-#@onready var discard_button: Button = %DiscardButton
-#@onready var play_button: Button = %PlayButton
-#
-#@onready var sort_suit_button: Button = %SortSuitButton
-#@onready var sort_value_button: Button = %SortValueButton
 
-#var sort_by_suit: bool = false
 var hand_size: int
 
 func _init() -> void:
 	CG.def_front_layout = "Default"
 
 func _ready() -> void:
-	#gold_button.pressed.connect(_on_gold_pressed)
-	#silv_button.pressed.connect(_on_silv_pressed)
-	#none_button.pressed.connect(_on_none_pressed)
-	#discard_button.pressed.connect(_on_discard_pressed)
-	#play_button.pressed.connect(_on_play_button)
-	#sort_suit_button.pressed.connect(_on_sort_suit_pressed)
-	#sort_value_button.pressed.connect(_on_sort_value_pressed)
 	
 	CG.def_front_layout = "Default"
 	
-	#print(balatro_hand.max_hand_size)
-	#hand_size = balatro_hand.max_hand_size
-	
 	dof_deck_manager.setup()
 	await get_tree().create_timer(1).timeout 
-	#deal()
+	
 	_next_phase()
 
 
@@ -84,7 +65,6 @@ func _next_phase() -> void:
 			await card_selected
 			selected_card.flip()
 			selected_card.undraggable = true
-			#selected_card.focus_mode = Control.FOCUS_NONE
 			selected_card.disabled = true
 			leader_slot.add_card(selected_card)
 			selected_card = null
@@ -94,7 +74,6 @@ func _next_phase() -> void:
 			await card_selected
 			selected_card.flip()
 			selected_card.undraggable = true
-			#selected_card.focus_mode = Control.FOCUS_NONE
 			selected_card.disabled = true
 			support_slot.add_card(selected_card)
 			selected_card = null
@@ -106,7 +85,21 @@ func _next_phase() -> void:
 			leader_slot.get_card(0).flip()
 		
 		phases.Battle:
-			pass
+			var p1_leader_stats = leader_slot.get_card(0).card_data as DofCardStyleResource
+			var p1_leader_strength = p1_leader_stats.strength			
+			var p2_leader_strength = 2
+			
+			print("BATTLE: My strength = ",p1_leader_strength,", opponent strength = ", p2_leader_strength)
+			if p1_leader_strength > p2_leader_strength:
+				print("I WIN BATTLE! :D")
+				p1_score += 1
+			elif p1_leader_strength == p2_leader_strength:
+				print("BATTLE DRAW :O")
+				p1_score += 1
+				p2_score += 1
+			else:
+				print("I LOSE BATTLE :(")
+				p2_score += 1
 		
 		phases.BacklineLeader:
 			waiting_for_slot = true
@@ -142,27 +135,12 @@ func select_slot(slot: CardSlot) -> void:
 	slot_selected.emit()
 
 func deal():
-	#var to_deal: int = min(hand_size, balatro_hand.get_remaining_space())
-	#if to_deal < 0:
-		#to_deal = 7
 	if !first_draw_completed:
 		player_hand.add_cards(dof_deck_manager.draw_cards(4))
 		first_draw_completed = true
 		return
 	player_hand.add_cards(dof_deck_manager.draw_cards(2))
 	
-	#if card_deck_manager.get_draw_pile_size() >= to_deal:
-		#balatro_hand.add_cards(card_deck_manager.draw_cards(to_deal))
-		#
-	#elif card_deck_manager.get_draw_pile_size() < to_deal:
-		#var overflow := to_deal - card_deck_manager.get_draw_pile_size()
-		#balatro_hand.add_cards(card_deck_manager.draw_cards(card_deck_manager.get_draw_pile_size()))
-		#card_deck_manager.reshuffle_discard_and_shuffle()
-		#if card_deck_manager.get_draw_pile_size() >= overflow:
-			#balatro_hand.add_cards(card_deck_manager.draw_cards(overflow))
-	#
-	#if sort_by_suit: balatro_hand.sort_by_suit()
-	#else: balatro_hand.sort_by_value()
 
 
 
@@ -196,6 +174,38 @@ func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.
 
 
 
+
+
+
+
+
+#
+#
+#
+#@onready var gold_button: Button = %GoldButton
+#@onready var silv_button: Button = %SilvButton
+#@onready var none_button: Button = %NoneButton
+#
+#@onready var discard_button: Button = %DiscardButton
+#@onready var play_button: Button = %PlayButton
+#
+#@onready var sort_suit_button: Button = %SortSuitButton
+#@onready var sort_value_button: Button = %SortValueButton
+#
+#
+	#
+	#print(balatro_hand.max_hand_size)
+	#hand_size = balatro_hand.max_hand_size
+	#
+	#gold_button.pressed.connect(_on_gold_pressed)
+	#silv_button.pressed.connect(_on_silv_pressed)
+	#none_button.pressed.connect(_on_none_pressed)
+	#discard_button.pressed.connect(_on_discard_pressed)
+	#play_button.pressed.connect(_on_play_button)
+	#sort_suit_button.pressed.connect(_on_sort_suit_pressed)
+	#sort_value_button.pressed.connect(_on_sort_value_pressed)
+	#
+	#
 #func _on_gold_pressed() -> void:
 	#for card: Card in balatro_hand.selected:
 		#card.card_data.current_modiffier = 1
@@ -237,9 +247,9 @@ func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.
 #
 	#played_hand.clear_hand()
 	#deal()
-	
-
-
+	#
+#
+#
 #
 #func _on_sort_suit_pressed() -> void:
 	#sort_by_suit = true
@@ -248,3 +258,23 @@ func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.
 #func _on_sort_value_pressed() -> void:
 	#sort_by_suit = false
 	#balatro_hand.sort_by_value()
+#
+#
+#
+	#if card_deck_manager.get_draw_pile_size() >= to_deal:
+		#balatro_hand.add_cards(card_deck_manager.draw_cards(to_deal))
+		#
+	#elif card_deck_manager.get_draw_pile_size() < to_deal:
+		#var overflow := to_deal - card_deck_manager.get_draw_pile_size()
+		#balatro_hand.add_cards(card_deck_manager.draw_cards(card_deck_manager.get_draw_pile_size()))
+		#card_deck_manager.reshuffle_discard_and_shuffle()
+		#if card_deck_manager.get_draw_pile_size() >= overflow:
+			#balatro_hand.add_cards(card_deck_manager.draw_cards(overflow))
+	#
+	#if sort_by_suit: balatro_hand.sort_by_suit()
+	#else: balatro_hand.sort_by_value()
+#
+#
+	#var to_deal: int = min(hand_size, balatro_hand.get_remaining_space())
+	#if to_deal < 0:
+		#to_deal = 7
