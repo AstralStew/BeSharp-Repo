@@ -5,8 +5,7 @@
 
 [resource]
 script = ExtResource("1_6wxrs")
-card_name = "Wizard"
-strength = 3
+card_name = "Plague Rat"
 top_texture = ExtResource("2_a4hd4")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"

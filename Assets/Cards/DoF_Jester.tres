@@ -5,8 +5,7 @@
 
 [resource]
 script = ExtResource("1_vemqa")
-card_name = "Assassin"
-strength = 3
+card_name = "Jester"
 top_texture = ExtResource("2_ch1sp")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"
