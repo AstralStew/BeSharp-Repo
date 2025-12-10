@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_6wxrs")
 card_name = "Plague Rat"
+card_type = 3
 top_texture = ExtResource("2_6wxrs")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"

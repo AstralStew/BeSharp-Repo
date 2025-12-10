@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_dopbd")
 card_name = "Seer"
+card_type = 2
 strength = 1
 top_texture = ExtResource("2_dopbd")
 custom_layout_name = &"DoF_Layout"

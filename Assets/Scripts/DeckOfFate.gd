@@ -2,22 +2,21 @@ class_name DeckOfFate extends CanvasLayer
 #Runs the game
 
 @export_category("REFERENCES")
+static var instance:DeckOfFate = null
 @onready var dof_deck_manager: DoFDeckManager = $DoFDeckManager
 @onready var player_hand: CardHand = $PlayerHand
 @onready var leader_slot: CardHand = $LeaderSlot
 @onready var support_slot: CardHand = $SupportSlot
-@onready var victory_slot_1: CardHand = $VictoryDisplay/VictorySlot1
-@onready var victory_slot_2: CardHand = $VictoryDisplay/VictorySlot2
-@onready var victory_slot_3: CardHand = $VictoryDisplay/VictorySlot3
-@onready var victory_slot_4: CardHand = $VictoryDisplay/VictorySlot4
-@onready var victory_slot_5: CardHand = $VictoryDisplay/VictorySlot5
-@onready var victory_slot_6: CardHand = $VictoryDisplay/VictorySlot6
 @onready var phase_label: RichTextLabel = $PhaseLabel
 @onready var p1_score_label: RichTextLabel = $P1ScoreDesc_VB/P1Score_RTL
 @onready var p2_score_label: RichTextLabel = $P2ScoreDesc_VB/P2Score_RTL
+@export var victory_slots: Array[CardSlot]	# set by hand in inspector
 
+@export_category("CONTROL")
+@export var number_of_rounds : int = 3
 
 @export_category("READ ONLY")
+@export var current_round : int = 0
 @export var p1_score : int = 0
 @export var p2_score : int = 0
 @export var current_phase : phases = phases.TurnStart
@@ -38,9 +37,15 @@ func _init() -> void:
 	CG.def_front_layout = "Default"
 
 func _ready() -> void:
+	instance = self
 	dof_deck_manager.setup()
 	_start_game()
 
+func _process(delta: float) -> void:
+	if Input.is_key_pressed(KEY_F):
+		Engine.time_scale = 5
+	else: 
+		Engine.time_scale = 1
 
 
 func _start_game() -> void:
@@ -59,6 +64,7 @@ func _next_phase() -> void:
 	if first_draw_completed:
 		current_phase = ((current_phase + 1) % phases.size()) as phases
 	
+	
 	# Tell the players which phase we are in
 	phase_label.text = phases.keys()[current_phase]
 	tween_visibility(phase_label,Color(1,1,1,1),0.5,Tween.EaseType.EASE_OUT,Tween.TransitionType.TRANS_LINEAR)
@@ -71,6 +77,8 @@ func _next_phase() -> void:
 		
 		# Deal 2 cards (or 4 on the first turn)
 		phases.TurnStart:
+			current_round += 1
+			print("[DeckOfFate] TurnStart - Current round set to ", current_round)
 			deal()
 		
 		phases.PickLeader:
@@ -98,12 +106,24 @@ func _next_phase() -> void:
 			selected_card = null
 		
 		phases.RevealSupport:
+			var support_card = support_slot.get_card(0)
 			# Flip the card in the support slot
-			support_slot.get_card(0).flip()
+			support_card.flip()
+			
+			# Perform the support ability
+			(support_card.card_data as DofCardStyleResource).on_support_reveal()
 		
 		phases.RevealLeader:
+			
+			var leader_card = leader_slot.get_card(0)
 			# Flip the card in the leader slot
-			leader_slot.get_card(0).flip()
+			leader_card.flip()
+			
+			# Perform the support ability
+			(leader_card.card_data as DofCardStyleResource).on_leader_reveal()
+			
+			
+			
 		
 		phases.Battle:
 			# Grab the stats for the leader card (just ignoring 2nd player for now)
@@ -115,18 +135,14 @@ func _next_phase() -> void:
 			print("[DeckOfFate] BATTLE: My strength = ",p1_leader_strength,", opponent strength = ", p2_leader_strength)
 			if p1_leader_strength > p2_leader_strength:
 				print("[DeckOfFate] I WIN BATTLE! :D")
-				p1_score += 1
+				add_p1_points(1)
 			elif p1_leader_strength == p2_leader_strength:
 				print("[DeckOfFate] BATTLE DRAW :O")
-				p1_score += 1
-				p2_score += 1
+				add_p1_points(1)
+				add_p2_points(1)
 			else:
 				print("[DeckOfFate] I LOSE BATTLE :(")
-				p2_score += 1
-			
-			# Update the label to match the current scores
-			p1_score_label.text = str(p1_score)
-			p2_score_label.text = str(p2_score)
+				add_p2_points(1)
 		
 		phases.BacklineLeader:
 			# Wait till the player selects a backline slot
@@ -145,7 +161,11 @@ func _next_phase() -> void:
 			selected_slot = null
 		
 		phases.TurnEnd:
-			pass
+			if current_round == number_of_rounds:
+				print("[DeckOfFate] TurnEnd - Reached end of game!")
+				end_game()
+				return
+			print("[DeckOfFate] TurnEnd - Current round = ", current_round)
 	
 	# Arrange cards
 	arrange_decks()
@@ -197,13 +217,113 @@ func arrange_decks() -> void:
 	await get_tree().create_timer(0.25).timeout 
 	leader_slot._arrange_cards()
 	support_slot._arrange_cards()
-	victory_slot_1._arrange_cards()
-	victory_slot_2._arrange_cards()
-	victory_slot_3._arrange_cards()
-	victory_slot_4._arrange_cards()
-	victory_slot_5._arrange_cards()
-	victory_slot_6._arrange_cards()
+	for slot in victory_slots:
+		slot._arrange_cards()
+
+func end_game() -> void:
 	
+	print("[DeckOfFate] Ending game! Checking victory slots...")
+		
+	for victory_slot in victory_slots:
+		var has_adjacency = false
+		print("[DeckOfFate] Checking victory slot: '", victory_slot.name, "'...")
+		# Save reference to card in this victory slot
+		var my_card = victory_slot.get_card(0).card_data as DofCardStyleResource
+		if victory_slot.adjacent_left != null:
+			var left_card = victory_slot.adjacent_left.get_card(0).card_data as DofCardStyleResource
+			print("[DeckOfFate] Left adjacent slot = '", victory_slot.adjacent_left, "' holding card '",left_card.card_name)
+			if my_card.calculate_adjacency(left_card):
+				has_adjacency = true
+		if !has_adjacency && victory_slot.adjacent_right != null:
+			var right_card = victory_slot.adjacent_right.get_card(0).card_data as DofCardStyleResource
+			print("[DeckOfFate] Right adjacent slot = '", victory_slot.adjacent_right, "' holding card '",right_card.card_name)
+			if my_card.calculate_adjacency(right_card):
+				has_adjacency = true
+		if has_adjacency:
+			add_p1_points(1)
+	
+	# Go through victory slots in order
+	#for victory_slot in victory_slots:
+		#print("[DeckOfFate] Checking victory slot: '", victory_slot.name, "'...")
+		## Save reference to card in this victory slot
+		#var my_card = victory_slot.get_card(0).card_data as DofCardStyleResource
+		## Check if this slot has an adjacent slot
+		#if victory_slot.adjacent_left != null:
+			## Save reference to card in that adjacent slot
+			#var adjacent_card = victory_slot.adjacent_left.get_card(0).card_data as DofCardStyleResource
+			## Go through conditions listed on the card in this victory slot in order
+			#for condition in my_card.adjacencies.keys():
+				## If its looking for the card's name...
+				#if (condition as DofCardStyleResource.AdjacencyTarget) == DofCardStyleResource.AdjacencyTarget.CardName:
+					## Add a point if the card in the adjacent slot has the same name as this condition
+					#if adjacent_card.card_name == my_card.adjacencies[condition]:
+						#print("[DeckOfFate] Adding 1 point from matching name: '", adjacent_card.card_name, "'!")
+						#add_p1_points(1)
+				## If its looking for the card's type...
+				#elif (condition as DofCardStyleResource.AdjacencyTarget) == DofCardStyleResource.AdjacencyTarget.CardType:
+					## Add a point if the card in the adjacent slot has the same type as this condition
+					#if adjacent_card.card_type == my_card.adjacencies[condition]:
+						#print("[DeckOfFate] Adding 1 point from matching type: '", adjacent_card.card_type, "'!")
+						#add_p1_points(1)
+		#if victory_slot.adjacent_right != null:
+			## Save reference to card in that adjacent slot
+			#var adjacent_card = victory_slot.adjacent_right.get_card(0).card_data as DofCardStyleResource
+			## Go through conditions listed on the card in this victory slot in order
+			#for condition in my_card.adjacencies.keys():
+				## If its looking for the card's name...
+				#if (condition as DofCardStyleResource.AdjacencyTarget) == DofCardStyleResource.AdjacencyTarget.CardName:
+					## Add a point if the card in the adjacent slot has the same name as this condition
+					#if adjacent_card.card_name == my_card.adjacencies[condition]:
+						#print("[DeckOfFate] Adding 1 point from matching name: '", adjacent_card.card_name, "'!")
+						#add_p1_points(1)
+				## If its looking for the card's type...
+				#elif (condition as DofCardStyleResource.AdjacencyTarget) == DofCardStyleResource.AdjacencyTarget.CardType:
+					## Add a point if the card in the adjacent slot has the same type as this condition
+					#if adjacent_card.card_type == my_card.adjacencies[condition]:
+						#print("[DeckOfFate] Adding 1 point from matching type: '", adjacent_card.card_type, "'!")
+						#add_p1_points(1)
+	
+	
+	# go through victory slots in order L > R
+		#if left_adjacency victory condition || if right_adjacency victory condition:
+			# add 1pt
+	
+	pass
+
+
+
+func add_p1_points(amount:int):
+	print("[DeckOfFate] Add points to player 1 score:", amount)
+	p1_score += amount
+	# Update the label to match the current scores
+	p1_score_label.text = str(p1_score)
+
+func add_p2_points(amount:int):
+	print("[DeckOfFate] Add points to player 2 score:", amount)
+	p2_score += amount
+	# Update the label to match the current scores
+	p2_score_label.text = str(p2_score)
+
+
+
+static func draw_cards_p1(amount:int):
+	print("[DeckOfFate] Draw cards to player 1 hand:", amount)
+
+static func add_combat_strength_p1(amount:int):
+	print("[DeckOfFate] Add strength tokens to player 1 leader:", amount)
+
+static func clear_combat_strength_p1():
+	print("[DeckOfFate] Clear all strength tokens from player 1 leader")
+
+
+static func get_leader_type() -> DofCardStyleResource.CardType:
+	return (instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type
+
+static func get_support_type() -> DofCardStyleResource.CardType:
+	print("[DeckOfFate] GetSupportType! Returning '",(instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type,"'")
+	return (instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type
+
+
 
 
 ##Tween the phase label

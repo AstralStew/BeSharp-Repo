@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="DofCardStyleResource" load_steps=3 format=3 uid="uid://co7yx0fggrdvt"]
+[gd_resource type="Resource" script_class="DofSquireStyleResource" load_steps=3 format=3 uid="uid://co7yx0fggrdvt"]
 
-[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Cards/dof_card_style_res.gd" id="1_qxfmv"]
+[ext_resource type="Script" uid="uid://cxrlitsy7s54q" path="res://Assets/Cards/dof_squire_style_res.gd" id="1_qxfmv"]
 [ext_resource type="Texture2D" uid="uid://b0ra2lhhcs48m" path="res://Assets/Images/art/squire.jpg" id="2_qxfmv"]
 
 [resource]

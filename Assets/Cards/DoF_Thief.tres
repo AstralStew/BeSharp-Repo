@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_kxixr")
 card_name = "Thief"
+card_type = 1
 strength = 2
 top_texture = ExtResource("2_kxixr")
 custom_layout_name = &"DoF_Layout"

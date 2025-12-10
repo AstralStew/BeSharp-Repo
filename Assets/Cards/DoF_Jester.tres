@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_vemqa")
 card_name = "Jester"
+card_type = 4
 top_texture = ExtResource("2_vemqa")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"
