@@ -121,6 +121,7 @@ vertical_alignment = 1
 script = ExtResource("3_2lpbm")
 show_cards = true
 starting_deck = SubResource("Resource_qaqnj")
+shuffle_on_ready = null
 draw_pile = NodePath("Draw")
 discard_pile = NodePath("Discard")
 

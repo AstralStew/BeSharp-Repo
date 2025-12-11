@@ -2,7 +2,7 @@ class_name DofSquireStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFSquireSR(",card_name,")] OnLeaderReveal. Adjusted!")
-	if DeckOfFate.get_support_type() == CardType.Warrior:
+	if DeckOfFate.get_support_type_p1() == CardType.Warrior:
 		DeckOfFate.add_combat_strength_p1(2)
 
 func on_support_reveal() -> void:

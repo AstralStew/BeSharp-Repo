@@ -25,6 +25,10 @@ static var instance:DeckOfFate = null
 @export var waiting_for_slot : bool = false
 @export var selected_card : Card = null
 @export var selected_slot : CardSlot = null
+@export var p1_combat_tokens : int = 0
+@export var p2_combat_tokens : int = 0
+@export var p1_combat_won : bool = false
+@export var p2_combat_won : bool = false
 
 enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Battle, BacklineLeader, BacklineSupport, TurnEnd}
 
@@ -77,6 +81,8 @@ func _next_phase() -> void:
 		
 		# Deal 2 cards (or 4 on the first turn)
 		phases.TurnStart:
+			p1_combat_won = false
+			p2_combat_won = false
 			current_round += 1
 			print("[DeckOfFate] TurnStart - Current round set to ", current_round)
 			deal()
@@ -121,11 +127,9 @@ func _next_phase() -> void:
 			
 			# Perform the support ability
 			(leader_card.card_data as DofCardStyleResource).on_leader_reveal()
-			
-			
-			
 		
 		phases.Battle:
+			
 			# Grab the stats for the leader card (just ignoring 2nd player for now)
 			var p1_leader_stats = leader_slot.get_card(0).card_data as DofCardStyleResource
 			var p1_leader_strength = p1_leader_stats.strength
@@ -133,22 +137,31 @@ func _next_phase() -> void:
 			
 			# Compare the strength of the leaders and score points accordingly
 			print("[DeckOfFate] BATTLE: My strength = ",p1_leader_strength,", opponent strength = ", p2_leader_strength)
-			if p1_leader_strength > p2_leader_strength:
+			if p1_leader_strength + p1_combat_tokens > p2_leader_strength + p2_combat_tokens:
 				print("[DeckOfFate] I WIN BATTLE! :D")
-				add_p1_points(1)
-			elif p1_leader_strength == p2_leader_strength:
+				add_points_p1(1)
+				p1_combat_won = true
+			elif p1_leader_strength + p1_combat_tokens == p2_leader_strength + p2_combat_tokens:
 				print("[DeckOfFate] BATTLE DRAW :O")
-				add_p1_points(1)
-				add_p2_points(1)
+				add_points_p1(1)
+				add_points_p2(1)
+				p1_combat_won = true
+				p2_combat_won = true
 			else:
 				print("[DeckOfFate] I LOSE BATTLE :(")
-				add_p2_points(1)
+				add_points_p2(1)
+				p2_combat_won = true
+			
+			# Reset combat tokens
+			p1_combat_tokens = 0
+			p2_combat_tokens = 0
 			
 			# Perform after-combat effects
 			(support_slot.get_card(0).card_data as DofCardStyleResource).on_support_reveal()
 			await get_tree().create_timer(1).timeout #Should be a callback
 			(leader_slot.get_card(0).card_data as DofCardStyleResource).on_leader_reveal()
 			await get_tree().create_timer(1).timeout #Should be a callback
+			
 			
 		
 		phases.BacklineLeader:
@@ -211,14 +224,7 @@ func deal():
 	if !first_draw_completed:
 		number_of_cards_to_draw = 4
 		first_draw_completed = true
-	
-	# Move the cards from the draw deck to the players hand
-	var drawn_cards = dof_deck_manager.draw_cards(number_of_cards_to_draw)
-	player_hand.add_cards(drawn_cards)
-	
-	# Flip the cards so they are revealed in hand
-	for card in drawn_cards:
-		card.flip()
+	draw_cards_p1(number_of_cards_to_draw)
 
 func arrange_decks() -> void:
 	await get_tree().create_timer(0.25).timeout 
@@ -247,7 +253,7 @@ func end_game() -> void:
 			if my_card.calculate_adjacency(right_card):
 				has_adjacency = true
 		if has_adjacency:
-			add_p1_points(1)
+			add_points_p1(1)
 	
 	# Go through victory slots in order
 	#for victory_slot in victory_slots:
@@ -298,45 +304,146 @@ func end_game() -> void:
 	pass
 
 
+#region Points functions
 
-func add_p1_points(amount:int):
-	print("[DeckOfFate] Add points to player 1 score:", amount)
-	p1_score += amount
+static func add_points_p1(amount:int):
+	print("[DeckOfFate] Add points to p1 score:", amount)
+	instance.p1_score += amount
 	# Update the label to match the current scores
-	p1_score_label.text = str(p1_score)
+	instance.p1_score_label.text = str(instance.p1_score)
 
-func add_p2_points(amount:int):
-	print("[DeckOfFate] Add points to player 2 score:", amount)
-	p2_score += amount
+static func add_points_p2(amount:int):
+	print("[DeckOfFate] Add points to p2 score:", amount)
+	instance.p2_score += amount
 	# Update the label to match the current scores
-	p2_score_label.text = str(p2_score)
+	instance.p2_score_label.text = str(instance.p2_score)
 
+static func reset_points():
+	print("[DeckOfFate] Resetting point scores.")
+	instance.p1_score = 0
+	instance.p2_score = 0
+	# Update the label to match the current scores
+	instance.p1_score_label.text = str(instance.p1_score)
+	instance.p2_score_label.text = str(instance.p2_score)
 
+#endregion
+
+#region Card functions
 
 static func draw_cards_p1(amount:int):
 	print("[DeckOfFate] Draw cards to p1 hand:", amount)
+	
+	# Move the cards from the draw deck to the players hand
+	var drawn_cards = instance.dof_deck_manager.draw_cards(amount)
+	instance.player_hand.add_cards(drawn_cards)
+	
+	# Flip the cards so they are revealed in hand
+	for drawn_card in drawn_cards: drawn_card.flip()
 
 static func draw_cards_p2(amount:int):
-	print("[DeckOfFate] Draw cards to p2 hand:", amount)
+	print("[DeckOfFate] Draw cards to p2 hand:", amount, " (NOTE -> not implemented, does nothing!)")
+	
+	## Move the cards from the draw deck to the players hand
+	#var drawn_cards = instance.dof_deck_manager.draw_cards(amount)
+	#instance.player_hand.add_cards(drawn_cards)
+	#
+	## Flip the cards so they are revealed in hand
+	#for card in drawn_cards:
+	#card.flip()
+
+static func shuffle_hand_p1():
+	print("[DeckOfFate] Shuffle p1 hand into deck")
+	
+	# Flip the cards so they are hidden in hand
+	var hand_cards = instance.player_hand.cards
+	for card in hand_cards:
+		card.flip()
+	
+	# Move the cards from the players hand to the draw deck
+	instance.dof_deck_manager.add_cards_to_draw_pile(hand_cards)
+	instance.dof_deck_manager.shuffle()
+
+static func shuffle_hand_p2():
+	print("[DeckOfFate] Shuffle p2 hand into deck (NOTE -> not implemented, does nothing!)")
+	
+	## Flip the cards so they are hidden in hand
+	#var hand_cards = instance.player_hand.cards
+	#for card in hand_cards:
+		#card.flip()
+	#
+	### Move the cards from the players hand to the draw deck
+	#instance.dof_deck_manager.add_cards_to_draw_pile(hand_cards)
+	#instance.dof_deck_manager.shuffle()
+
+static func remove_card_p1(card:Card):
+	print("[DeckOfFate] Remove p1 card")
+
+	# Move the card to the discard pile
+	instance.dof_deck_manager.add_card_to_discard_pile(card)
+
+static func remove_card_p2(card:Card):
+	print("[DeckOfFate] Remove p2 card (NOTE -> not implemented, does nothing!)")
+
+	## Move the card to the discard pile
+	#instance.dof_deck_manager.add_card_to_discard_pile(card)
+
+
+#endregion
+
+
+#region Combat token functions
 
 static func add_combat_strength_p1(amount:int):
 	print("[DeckOfFate] Add strength tokens to p1 leader:", amount)
+	instance.p1_combat_tokens += amount
 
 static func add_combat_strength_p2(amount:int):
 	print("[DeckOfFate] Add strength tokens to p2 leader:", amount)
+	instance.p2_combat_tokens += amount
 
 static func clear_combat_strength_p1():
 	print("[DeckOfFate] Clear all strength tokens from p1 leader")
+	instance.p1_combat_tokens = 0
 
 static func clear_combat_strength_p2():
 	print("[DeckOfFate] Clear all strength tokens from p2 leader")
+	instance.p2_combat_tokens = 0
+
+#endregion
+
+#region Switch functions
+
+
+
+
+
+#endregion
+
+
+#region Getters
+
+static func get_leader_p1() -> Card:
+	print("[DeckOfFate] Return p1 leader card! Returning '",instance.leader_slot.get_card(0),"'...")
+	return instance.leader_slot.get_card(0)
+
+static func get_leader_p2() -> Card:
+	print("[DeckOfFate] Return p2 leader card! (not implemented, returns null for now)...")
+	return null
+
+static func get_support_p1() -> Card:
+	print("[DeckOfFate] Return p1 support card! Returning '",instance.support_slot.get_card(0),"'...")
+	return instance.support_slot.get_card(0)
+
+static func get_support_p2() -> Card:
+	print("[DeckOfFate] Return p2 support card! (not implemented, returns null for now)...")
+	return null
 
 static func get_leader_type_p1() -> DofCardStyleResource.CardType:
 	print("[DeckOfFate] GetLeaderType from p1! Returning '",(instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type,"'...")
 	return (instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type
 
 static func get_leader_type_p2() -> DofCardStyleResource.CardType:
-	print("[DeckOfFate] GetLeaderType from p2 (always returns Warrior for now)...")
+	print("[DeckOfFate] GetLeaderType from p2 (not implemented, always returns Warrior for now)...")
 	return DofCardStyleResource.CardType.Warrior
 	#return (instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type
 
@@ -349,7 +456,10 @@ static func get_support_type_p2() -> DofCardStyleResource.CardType:
 	return DofCardStyleResource.CardType.Warrior
 	#return (instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type
 
+#endregion
 
+
+#region Tweens + Animations
 
 ##Tween the phase label
 var _visibility_tween
@@ -361,6 +471,7 @@ func tween_visibility(canvas_item:CanvasItem, desired_visibility: Color = Color.
 	_visibility_tween = create_tween().set_ease(ease_type).set_trans(trans_type)
 	_visibility_tween.tween_property(canvas_item, "modulate", desired_visibility, duration)
 
+#endregion
 
 
 
