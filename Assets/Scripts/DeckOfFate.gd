@@ -12,6 +12,7 @@ static var instance:DeckOfFate = null
 @onready var phase_label: RichTextLabel = $PhaseLabel
 @onready var p1_score_label: RichTextLabel = $P1ScoreDesc_VB/P1Score_RTL
 @onready var p2_score_label: RichTextLabel = $P2ScoreDesc_VB/P2Score_RTL
+@onready var helper_label: RichTextLabel = $HelperText_MC/HelperText_VB/HelperText_RTL
 @export var victory_slots: Array[CardSlot]	# set by hand in inspector
 
 @export_category("CONTROL")
@@ -81,6 +82,7 @@ func _next_phase() -> void:
 	match current_phase:
 		
 		phases.TurnStart:
+			helper_label.text = "Dealing cards..."
 			combat_result = CombatResult.loss
 			current_round += 1
 			print("[DeckOfFate] TurnStart - Current round set to ", current_round)
@@ -88,6 +90,7 @@ func _next_phase() -> void:
 			deal()
 		
 		phases.PickLeader:
+			helper_label.text = "Pick a Leader from your hand"
 			# Wait till the player selects a card
 			waiting_for_card = true
 			await card_selected
@@ -100,6 +103,7 @@ func _next_phase() -> void:
 			selected_card = null
 		
 		phases.PickSupport:
+			helper_label.text = "Pick a Support from your hand"
 			# Wait till the player selects a card
 			waiting_for_card = true
 			await card_selected
@@ -112,6 +116,7 @@ func _next_phase() -> void:
 			selected_card = null
 		
 		phases.RevealSupport:
+			helper_label.text = "Revealing Support cards!"
 			var support_card = support_slot.get_card(0)
 			# Flip the card in the support slot
 			support_card.flip()
@@ -120,7 +125,7 @@ func _next_phase() -> void:
 			(support_card.card_data as DofCardStyleResource).on_support_reveal()
 		
 		phases.RevealLeader:
-			
+			helper_label.text = "Revealing Leader cards!"
 			var leader_card = leader_slot.get_card(0)
 			# Flip the card in the leader slot
 			leader_card.flip()
@@ -129,7 +134,8 @@ func _next_phase() -> void:
 			(leader_card.card_data as DofCardStyleResource).on_leader_reveal()
 		
 		phases.Battle:
-			
+			#helper_label.text = """Combat:
+			#- P1 strength = """,
 			# Grab the stats for the leader card (just ignoring 2nd player for now)
 			var p1_leader_stats = leader_slot.get_card(0).card_data as DofCardStyleResource
 			var p1_leader_strength = p1_leader_stats.strength
