@@ -1,13 +1,7 @@
-[gd_resource type="Resource" script_class="DofCardStyleResource" load_steps=3 format=3 uid="uid://dxvrs554ytdp6"]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dxvrs554ytdp6"]
 
-[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Cards/dof_card_style_res.gd" id="1_7ivxr"]
-[ext_resource type="Texture2D" uid="uid://bh7dd18l6thu8" path="res://Assets/Images/art/assassin.webp" id="2_7ivxr"]
+[sub_resource type="GDScript" id="GDScript_3c5us"]
 
 [resource]
-script = ExtResource("1_7ivxr")
-card_name = "Assassin"
-card_type = 1
-strength = 3
-top_texture = ExtResource("2_7ivxr")
-custom_layout_name = &"DoF_Layout"
+script = SubResource("GDScript_3c5us")
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"
