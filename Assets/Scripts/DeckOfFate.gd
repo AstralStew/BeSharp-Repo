@@ -143,6 +143,13 @@ func _next_phase() -> void:
 			else:
 				print("[DeckOfFate] I LOSE BATTLE :(")
 				add_p2_points(1)
+			
+			# Perform after-combat effects
+			(support_slot.get_card(0).card_data as DofCardStyleResource).on_support_reveal()
+			await get_tree().create_timer(1).timeout #Should be a callback
+			(leader_slot.get_card(0).card_data as DofCardStyleResource).on_leader_reveal()
+			await get_tree().create_timer(1).timeout #Should be a callback
+			
 		
 		phases.BacklineLeader:
 			# Wait till the player selects a backline slot
@@ -307,22 +314,40 @@ func add_p2_points(amount:int):
 
 
 static func draw_cards_p1(amount:int):
-	print("[DeckOfFate] Draw cards to player 1 hand:", amount)
+	print("[DeckOfFate] Draw cards to p1 hand:", amount)
+
+static func draw_cards_p2(amount:int):
+	print("[DeckOfFate] Draw cards to p2 hand:", amount)
 
 static func add_combat_strength_p1(amount:int):
-	print("[DeckOfFate] Add strength tokens to player 1 leader:", amount)
+	print("[DeckOfFate] Add strength tokens to p1 leader:", amount)
+
+static func add_combat_strength_p2(amount:int):
+	print("[DeckOfFate] Add strength tokens to p2 leader:", amount)
 
 static func clear_combat_strength_p1():
-	print("[DeckOfFate] Clear all strength tokens from player 1 leader")
+	print("[DeckOfFate] Clear all strength tokens from p1 leader")
 
+static func clear_combat_strength_p2():
+	print("[DeckOfFate] Clear all strength tokens from p2 leader")
 
-static func get_leader_type() -> DofCardStyleResource.CardType:
+static func get_leader_type_p1() -> DofCardStyleResource.CardType:
+	print("[DeckOfFate] GetLeaderType from p1! Returning '",(instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type,"'...")
 	return (instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type
 
-static func get_support_type() -> DofCardStyleResource.CardType:
-	print("[DeckOfFate] GetSupportType! Returning '",(instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type,"'")
+static func get_leader_type_p2() -> DofCardStyleResource.CardType:
+	print("[DeckOfFate] GetLeaderType from p2 (always returns Warrior for now)...")
+	return DofCardStyleResource.CardType.Warrior
+	#return (instance.leader_slot.get_card(0).card_data as DofCardStyleResource).card_type
+
+static func get_support_type_p1() -> DofCardStyleResource.CardType:
+	print("[DeckOfFate] GetSupportType from p1! Returning '",(instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type,"'...")
 	return (instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type
 
+static func get_support_type_p2() -> DofCardStyleResource.CardType:
+	print("[DeckOfFate] GetSupportType from p2 (always returns Warrior for now)...")
+	return DofCardStyleResource.CardType.Warrior
+	#return (instance.support_slot.get_card(0).card_data as DofCardStyleResource).card_type
 
 
 
