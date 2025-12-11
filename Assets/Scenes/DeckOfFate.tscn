@@ -121,7 +121,6 @@ vertical_alignment = 1
 script = ExtResource("3_2lpbm")
 show_cards = true
 starting_deck = SubResource("Resource_qaqnj")
-shuffle_on_ready = null
 draw_pile = NodePath("Draw")
 discard_pile = NodePath("Discard")
 
@@ -465,3 +464,32 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="HelperText_VB" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -144.0
+offset_top = -139.0
+offset_right = 144.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="P2ScoreDesc_RTL" type="RichTextLabel" parent="HelperText_VB"]
+layout_mode = 2
+text = "Notes"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2Score_RTL" type="RichTextLabel" parent="HelperText_VB"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "0"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1

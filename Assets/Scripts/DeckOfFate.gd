@@ -1,6 +1,8 @@
 class_name DeckOfFate extends CanvasLayer
 #Runs the game
 
+enum CombatResult {win,draw,loss}
+
 @export_category("REFERENCES")
 static var instance:DeckOfFate = null
 @onready var dof_deck_manager: DoFDeckManager = $DoFDeckManager
@@ -27,8 +29,7 @@ static var instance:DeckOfFate = null
 @export var selected_slot : CardSlot = null
 @export var p1_combat_tokens : int = 0
 @export var p2_combat_tokens : int = 0
-@export var p1_combat_won : bool = false
-@export var p2_combat_won : bool = false
+@export var combat_result : CombatResult = CombatResult.loss
 
 enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Battle, BacklineLeader, BacklineSupport, TurnEnd}
 
@@ -79,12 +80,11 @@ func _next_phase() -> void:
 	# Check the phase enum 
 	match current_phase:
 		
-		# Deal 2 cards (or 4 on the first turn)
 		phases.TurnStart:
-			p1_combat_won = false
-			p2_combat_won = false
+			combat_result = CombatResult.loss
 			current_round += 1
 			print("[DeckOfFate] TurnStart - Current round set to ", current_round)
+			# Deal 2 cards (or 4 on the first turn)
 			deal()
 		
 		phases.PickLeader:
@@ -140,17 +140,16 @@ func _next_phase() -> void:
 			if p1_leader_strength + p1_combat_tokens > p2_leader_strength + p2_combat_tokens:
 				print("[DeckOfFate] I WIN BATTLE! :D")
 				add_points_p1(1)
-				p1_combat_won = true
+				combat_result = CombatResult.win
 			elif p1_leader_strength + p1_combat_tokens == p2_leader_strength + p2_combat_tokens:
 				print("[DeckOfFate] BATTLE DRAW :O")
 				add_points_p1(1)
 				add_points_p2(1)
-				p1_combat_won = true
-				p2_combat_won = true
+				combat_result = CombatResult.draw
 			else:
 				print("[DeckOfFate] I LOSE BATTLE :(")
 				add_points_p2(1)
-				p2_combat_won = true
+				combat_result = CombatResult.loss
 			
 			# Reset combat tokens
 			p1_combat_tokens = 0
@@ -161,24 +160,26 @@ func _next_phase() -> void:
 			await get_tree().create_timer(1).timeout #Should be a callback
 			(leader_slot.get_card(0).card_data as DofCardStyleResource).on_leader_reveal()
 			await get_tree().create_timer(1).timeout #Should be a callback
-			
-			
 		
 		phases.BacklineLeader:
-			# Wait till the player selects a backline slot
-			waiting_for_slot = true
-			await slot_selected
-			# Add card to chosen backline slot
-			selected_slot.add_card(leader_slot.get_card(0))
-			selected_slot = null
+			# Make sure there is still a card in the slot
+			if leader_slot.get_card_count() > 0:
+				# Wait till the player selects a backline slot
+				waiting_for_slot = true
+				await slot_selected
+				# Add card to chosen backline slot
+				selected_slot.add_card(leader_slot.get_card(0))
+				selected_slot = null
 		
 		phases.BacklineSupport:
-			# Wait till the player selects a backline slot
-			waiting_for_slot = true
-			await slot_selected
-			# Add card to chosen backline slot
-			selected_slot.add_card(support_slot.get_card(0))
-			selected_slot = null
+			# Make sure there is still a card in the slot
+			if support_slot.get_card_count() > 0:
+				# Wait till the player selects a backline slot
+				waiting_for_slot = true
+				await slot_selected
+				# Add card to chosen backline slot
+				selected_slot.add_card(support_slot.get_card(0))
+				selected_slot = null
 		
 		phases.TurnEnd:
 			if current_round == number_of_rounds:
@@ -421,6 +422,10 @@ static func clear_combat_strength_p2():
 
 
 #region Getters
+
+static func get_combat_result() -> CombatResult:
+	print("[DeckOfFate] Return combat result! Returning '",instance.combat_result,"'...")
+	return instance.combat_result
 
 static func get_leader_p1() -> Card:
 	print("[DeckOfFate] Return p1 leader card! Returning '",instance.leader_slot.get_card(0),"'...")
