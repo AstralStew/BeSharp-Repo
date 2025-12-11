@@ -134,58 +134,87 @@ func _next_phase() -> void:
 			(leader_card.card_data as DofCardStyleResource).on_leader_reveal()
 		
 		phases.Battle:
-			#helper_label.text = """Combat:
-			#- P1 strength = """,
 			# Grab the stats for the leader card (just ignoring 2nd player for now)
 			var p1_leader_stats = leader_slot.get_card(0).card_data as DofCardStyleResource
 			var p1_leader_strength = p1_leader_stats.strength
 			var p2_leader_strength = 2
 			
+			helper_label.text = ("Combat:")
+			await get_tree().create_timer(1).timeout
+			helper_label.text = ("Combat:" + \
+				"P1 Strength = " + str(p1_leader_strength) + "(+" + str(p1_combat_tokens) + ")")
+			await get_tree().create_timer(1).timeout
+			helper_label.text = ("Combat:" + \
+				"P1 Strength = " + str(p1_leader_strength) + "(+" + str(p1_combat_tokens) + ")" + \
+				"P2 Strength = " + str(p2_leader_strength) + "(+" + str(p2_combat_tokens) + ")")
+			await get_tree().create_timer(1.5).timeout
+			
 			# Compare the strength of the leaders and score points accordingly
+			var helpermsg = ""
 			print("[DeckOfFate] BATTLE: My strength = ",p1_leader_strength,", opponent strength = ", p2_leader_strength)
 			if p1_leader_strength + p1_combat_tokens > p2_leader_strength + p2_combat_tokens:
 				print("[DeckOfFate] I WIN BATTLE! :D")
+				helpermsg = "YOU WON! :D"
 				add_points_p1(1)
 				combat_result = CombatResult.win
+				
 			elif p1_leader_strength + p1_combat_tokens == p2_leader_strength + p2_combat_tokens:
 				print("[DeckOfFate] BATTLE DRAW :O")
+				helpermsg = "DRAW! :O"
 				add_points_p1(1)
 				add_points_p2(1)
 				combat_result = CombatResult.draw
 			else:
 				print("[DeckOfFate] I LOSE BATTLE :(")
+				helpermsg = "YOU LOST! D:"
 				add_points_p2(1)
 				combat_result = CombatResult.loss
+			
+			
+			helper_label.text = ("Combat:" + \
+			"P1 Strength = " + str(p1_leader_strength) + "(+" + str(p1_combat_tokens) + ")" + \
+			"P2 Strength = " + str(p2_leader_strength) + "(+" + str(p2_combat_tokens) + ")" + \
+			"... " + helpermsg)
+			
+			await get_tree().create_timer(1.5).timeout
 			
 			# Reset combat tokens
 			p1_combat_tokens = 0
 			p2_combat_tokens = 0
 			
 			# Perform after-combat effects
+			helper_label.text = "Support after-combat effects..."
 			(support_slot.get_card(0).card_data as DofCardStyleResource).on_support_reveal()
 			await get_tree().create_timer(1).timeout #Should be a callback
+			helper_label.text = "Leader after-combat effects..."
 			(leader_slot.get_card(0).card_data as DofCardStyleResource).on_leader_reveal()
 			await get_tree().create_timer(1).timeout #Should be a callback
 		
 		phases.BacklineLeader:
 			# Make sure there is still a card in the slot
 			if leader_slot.get_card_count() > 0:
+				helper_label.text = "Select a backline slot for your Leader"
 				# Wait till the player selects a backline slot
 				waiting_for_slot = true
 				await slot_selected
 				# Add card to chosen backline slot
 				selected_slot.add_card(leader_slot.get_card(0))
 				selected_slot = null
+			else: 
+				helper_label.text = "No Leader in slot! Skipping backlining them..."
 		
 		phases.BacklineSupport:
 			# Make sure there is still a card in the slot
 			if support_slot.get_card_count() > 0:
+				helper_label.text = "Select a backline slot for your Support"
 				# Wait till the player selects a backline slot
 				waiting_for_slot = true
 				await slot_selected
 				# Add card to chosen backline slot
 				selected_slot.add_card(support_slot.get_card(0))
 				selected_slot = null
+			else: 
+				helper_label.text = "No Support in slot! Skipping backlining them..."
 		
 		phases.TurnEnd:
 			if current_round == number_of_rounds:
@@ -193,6 +222,7 @@ func _next_phase() -> void:
 				end_game()
 				return
 			print("[DeckOfFate] TurnEnd - Current round = ", current_round)
+			helper_label.text = "Rounds remaining: " + str(3 - current_round)
 	
 	# Arrange cards
 	arrange_decks()
@@ -243,7 +273,9 @@ func arrange_decks() -> void:
 func end_game() -> void:
 	
 	print("[DeckOfFate] Ending game! Checking victory slots...")
-		
+	
+	helper_label.text = "GAME OVER"
+	
 	for victory_slot in victory_slots:
 		var has_adjacency = false
 		print("[DeckOfFate] Checking victory slot: '", victory_slot.name, "'...")
