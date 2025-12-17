@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DofseerStyleResource" load_steps=3 format=3 uid="uid://ctsw7s1gss5a4"]
 
-[ext_resource type="Script" uid="uid://cpul4kpfn2lbp" path="res://Assets/Cards/dof_seer_style_res.gd" id="1_dopbd"]
+[ext_resource type="Script" path="res://Assets/Cards/dof_seer_style_res.gd" id="1_dopbd"]
 [ext_resource type="Texture2D" uid="uid://coe3vj3rdhnm5" path="res://Assets/Images/art/vecteezy_a-wizard-cartoon-character-holding-staff-on-white-background_8332325.jpg" id="2_dopbd"]
 
 [resource]

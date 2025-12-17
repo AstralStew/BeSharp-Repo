@@ -9,4 +9,5 @@ card_name = "Assassin"
 card_type = 1
 strength = 3
 top_texture = ExtResource("2_8clyi")
+custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"

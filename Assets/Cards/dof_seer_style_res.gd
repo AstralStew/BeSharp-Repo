@@ -2,17 +2,17 @@ class_name DofseerStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFseerSR(",card_name,")] OnLeaderReveal. Adjusted!")
+	DeckOfFate.draw_cards_p1(2)
 	super.on_leader_reveal()
 
 func on_support_reveal() -> void:
 	print("[DoFseerSR(",card_name,")] OnSupportReveal. Adjusted!")
-	DeckOfFate.draw_cards_p1(2)
 	super.on_support_reveal()
-	
+
 func on_combat_finished() -> void:
 	print("[DoFseerSR(",card_name,")] OnCombatFinished.")
 	super.on_combat_finished()
-	
+
 func on_enter_backline() -> void:
 	print("[DoFseerSR(",card_name,")] OnEnterBackline.")
 	super.on_enter_backline()

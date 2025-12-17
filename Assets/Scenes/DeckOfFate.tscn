@@ -1,21 +1,30 @@
-[gd_scene load_steps=14 format=3 uid="uid://p180ef84ps7w"]
+[gd_scene load_steps=23 format=3 uid="uid://p180ef84ps7w"]
 
 [ext_resource type="Script" uid="uid://bj1c3rpld5lrr" path="res://Assets/Scripts/DeckOfFate.gd" id="1_6eug2"]
 [ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="2_u4grd"]
 [ext_resource type="Script" uid="uid://cj7pttaxyo1v0" path="res://Assets/Scripts/DoFDeckManager.gd" id="3_2lpbm"]
 [ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_yu6pi"]
+[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="5_2lpbm"]
 [ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="5_6eug2"]
-[ext_resource type="Resource" uid="uid://bwf40d8nop3cl" path="res://Assets/Cards/DoF_Demon.tres" id="5_7wpwf"]
-[ext_resource type="Resource" uid="uid://dxvrs554ytdp6" path="res://Assets/Cards/DoF_Assassin.tres" id="6_y3sed"]
-[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="7_efpq2"]
+[ext_resource type="Resource" uid="uid://dxvrs554ytdp6" path="res://Assets/Cards/DoF_Assassin.tres" id="5_b8s1p"]
+[ext_resource type="Resource" uid="uid://bwf40d8nop3cl" path="res://Assets/Cards/DoF_Demon.tres" id="6_rveja"]
 [ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="8_2lpbm"]
-[ext_resource type="Resource" uid="uid://cjf3vjpx4b67n" path="res://Assets/Cards/DoF_Jester.tres" id="8_y3sed"]
+[ext_resource type="Resource" uid="uid://cjf3vjpx4b67n" path="res://Assets/Cards/DoF_Jester.tres" id="8_spmp6"]
+[ext_resource type="Resource" uid="uid://b0jdfici4m77s" path="res://Assets/Cards/DoF_knight.tres" id="9_khlxv"]
 [ext_resource type="Script" uid="uid://v4hj4p4kc0m" path="res://Assets/Scripts/card_slot.gd" id="9_nmsih"]
+[ext_resource type="Resource" uid="uid://bxs74hi6vjn2a" path="res://Assets/Cards/DoF_Rat.tres" id="10_ehpuh"]
+[ext_resource type="Resource" uid="uid://ctsw7s1gss5a4" path="res://Assets/Cards/DoF_Seer.tres" id="11_e2vai"]
+[ext_resource type="Resource" uid="uid://ckqn576ho3ju4" path="res://Assets/Cards/DoF_ShieldBearer.tres" id="12_dcd3x"]
+[ext_resource type="Resource" uid="uid://b6cobb5d04rtv" path="res://Assets/Cards/DoF_Spy.tres" id="13_atm20"]
+[ext_resource type="Resource" uid="uid://co7yx0fggrdvt" path="res://Assets/Cards/DoF_Squire.tres" id="14_7s0l1"]
+[ext_resource type="Resource" uid="uid://bh501i87ccdbm" path="res://Assets/Cards/DoF_Thief.tres" id="15_hu0gv"]
+[ext_resource type="Resource" uid="uid://ca6b5gvvqwy7" path="res://Assets/Cards/DoF_Witch.tres" id="16_lpu51"]
+[ext_resource type="Resource" uid="uid://c03c0g7jrojio" path="res://Assets/Cards/DoF_Wizard.tres" id="17_0vgg4"]
 
 [sub_resource type="Resource" id="Resource_qaqnj"]
 script = ExtResource("3_yu6pi")
 deck_name = &"TestDeck"
-cards = Array[ExtResource("2_u4grd")]([ExtResource("5_7wpwf"), ExtResource("6_y3sed"), ExtResource("7_efpq2"), ExtResource("8_y3sed"), null, null, null, null, null, null, null, null, null])
+cards = Array[ExtResource("2_u4grd")]([ExtResource("5_b8s1p"), ExtResource("6_rveja"), ExtResource("5_2lpbm"), ExtResource("8_spmp6"), ExtResource("9_khlxv"), ExtResource("10_ehpuh"), ExtResource("11_e2vai"), ExtResource("12_dcd3x"), ExtResource("13_atm20"), ExtResource("14_7s0l1"), ExtResource("15_hu0gv"), ExtResource("16_lpu51"), ExtResource("17_0vgg4")])
 metadata/_custom_type_script = "uid://lhb5ry3o8icy"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8s1p"]

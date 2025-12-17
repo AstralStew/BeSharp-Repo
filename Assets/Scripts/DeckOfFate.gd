@@ -186,13 +186,23 @@ func _next_phase() -> void:
 			p1_combat_tokens = 0
 			p2_combat_tokens = 0
 			
-			# Perform after-combat effects
-			helper_label.text = "Support after-combat effects..."
-			(support_slot.get_card(0).card_data as DofCardStyleResource).on_support_reveal()
-			await resolution_completed
-			helper_label.text = "Leader after-combat effects..."
-			(leader_slot.get_card(0).card_data as DofCardStyleResource).on_leader_reveal()
-			await resolution_completed
+			# Perform Support after-combat effect
+			if support_slot.get_card_count() > 0:
+				helper_label.text = "Support after-combat effects..."
+				(support_slot.get_card(0).card_data as DofCardStyleResource).on_combat_finished()
+				await resolution_completed
+			else:
+				helper_label.text = "Support has vanished! Skipping after-combat effects..."
+				await get_tree().create_timer(1).timeout
+			
+			# Perform Leader after-combat effect
+			if leader_slot.get_card_count() > 0:
+				helper_label.text = "Leader after-combat effects..."
+				(leader_slot.get_card(0).card_data as DofCardStyleResource).on_combat_finished()
+				await resolution_completed
+			else:
+				helper_label.text = "Leader has vanished! Skipping after-combat effects..."
+				await get_tree().create_timer(1).timeout
 		
 		phases.BacklineLeader:
 			# Make sure there is still a card in the slot
@@ -287,16 +297,19 @@ func end_game() -> void:
 	helper_label.text = "GAME OVER"
 	
 	for victory_slot in victory_slots:
-		var has_adjacency = false
+		if victory_slot.get_card_count() == 0:
+			print("[DeckOfFate] No card in slot: '", victory_slot.name, "', skipping...")
+			continue
 		print("[DeckOfFate] Checking victory slot: '", victory_slot.name, "'...")
 		# Save reference to card in this victory slot
 		var my_card = victory_slot.get_card(0).card_data as DofCardStyleResource
-		if victory_slot.adjacent_left != null:
+		var has_adjacency = false
+		if victory_slot.adjacent_left != null && victory_slot.adjacent_left.get_card_count() > 0:
 			var left_card = victory_slot.adjacent_left.get_card(0).card_data as DofCardStyleResource
 			print("[DeckOfFate] Left adjacent slot = '", victory_slot.adjacent_left, "' holding card '",left_card.card_name)
 			if my_card.calculate_adjacency(left_card):
 				has_adjacency = true
-		if !has_adjacency && victory_slot.adjacent_right != null:
+		if !has_adjacency && victory_slot.adjacent_right != null && victory_slot.adjacent_right.get_card_count() > 0:
 			var right_card = victory_slot.adjacent_right.get_card(0).card_data as DofCardStyleResource
 			print("[DeckOfFate] Right adjacent slot = '", victory_slot.adjacent_right, "' holding card '",right_card.card_name)
 			if my_card.calculate_adjacency(right_card):

@@ -8,7 +8,7 @@ func on_support_reveal() -> void:
 	print("[DoFshieldbearerSR(",card_name,")] OnSupportReveal. Adjusted!")
 	DeckOfFate.draw_cards_p1(2)
 	super.on_support_reveal()
-	
+
 func on_combat_finished() -> void:
 	print("[DoFshieldbearerSR(",card_name,")] OnCombatFinished.")
 	if DeckOfFate.get_combat_result() == DeckOfFate.CombatResult.loss:
@@ -16,11 +16,11 @@ func on_combat_finished() -> void:
 		if (DeckOfFate.get_support_p1().card_data as DofCardStyleResource).card_name == "Shieldbearer":
 			DeckOfFate.remove_card_p1(DeckOfFate.get_support_p1())
 	super.on_combat_finished()
-	
+
 func on_enter_backline() -> void:
 	print("[DoFshieldbearerSR(",card_name,")] OnEnterBackline.")
 	super.on_enter_backline()
-	
+
 func calculate_adjacency(card:DofCardStyleResource) -> bool:
 	print("[DoFshieldbearerSR(",card_name,")] CalculateAdjacency, using '",card,"'")
 	if card.card_name == "Assassin":
