@@ -26,6 +26,7 @@ static var instance:DeckOfFate = null
 @export var first_draw_completed : bool = false
 @export var waiting_for_card : bool = false
 @export var waiting_for_slot : bool = false
+@export var waiting_for_resolution : bool = false
 @export var selected_card : Card = null
 @export var selected_slot : CardSlot = null
 @export var p1_combat_tokens : int = 0
@@ -36,6 +37,7 @@ enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Ba
 
 signal card_selected
 signal slot_selected
+signal resolution_completed
 
 var hand_size: int
 
@@ -123,6 +125,7 @@ func _next_phase() -> void:
 			
 			# Perform the support ability
 			(support_card.card_data as DofCardStyleResource).on_support_reveal()
+			await resolution_completed
 		
 		phases.RevealLeader:
 			helper_label.text = "Revealing Leader cards!"
@@ -132,6 +135,7 @@ func _next_phase() -> void:
 			
 			# Perform the support ability
 			(leader_card.card_data as DofCardStyleResource).on_leader_reveal()
+			await resolution_completed
 		
 		phases.Battle:
 			# Grab the stats for the leader card (just ignoring 2nd player for now)
@@ -185,10 +189,10 @@ func _next_phase() -> void:
 			# Perform after-combat effects
 			helper_label.text = "Support after-combat effects..."
 			(support_slot.get_card(0).card_data as DofCardStyleResource).on_support_reveal()
-			await get_tree().create_timer(1).timeout #Should be a callback
+			await resolution_completed
 			helper_label.text = "Leader after-combat effects..."
 			(leader_slot.get_card(0).card_data as DofCardStyleResource).on_leader_reveal()
-			await get_tree().create_timer(1).timeout #Should be a callback
+			await resolution_completed
 		
 		phases.BacklineLeader:
 			# Make sure there is still a card in the slot
@@ -253,6 +257,13 @@ func select_slot(slot: CardSlot) -> void:
 	waiting_for_slot = false
 	selected_slot = slot
 	slot_selected.emit()
+
+func complete_resolution() -> void:
+	# Cancel if we aren't waiting for resolution
+	if !waiting_for_resolution: return
+	print("[DeckOfFate] Resolution complete! Returning to next_phase() loop...")
+	waiting_for_resolution = false
+	resolution_completed.emit()
 
 
 func deal():
@@ -390,6 +401,13 @@ static func draw_cards_p2(amount:int):
 	#for card in drawn_cards:
 	#card.flip()
 
+static func return_to_hand_p1(card:Card):
+	print("[DeckOfFate] Return p1 '",card.name,"' to hand")
+	instance.player_hand.add_card(card)
+
+static func return_to_hand_p2(card:Card):
+	print("[DeckOfFate] Return p2 '",card.name,"' to hand (NOTE -> not implemented, does nothing!)")
+
 static func shuffle_hand_p1():
 	print("[DeckOfFate] Shuffle p1 hand into deck")
 	
@@ -415,13 +433,13 @@ static func shuffle_hand_p2():
 	#instance.dof_deck_manager.shuffle()
 
 static func remove_card_p1(card:Card):
-	print("[DeckOfFate] Remove p1 card")
+	print("[DeckOfFate] Remove p1 card '",card.name,"'")
 
 	# Move the card to the discard pile
 	instance.dof_deck_manager.add_card_to_discard_pile(card)
 
 static func remove_card_p2(card:Card):
-	print("[DeckOfFate] Remove p2 card (NOTE -> not implemented, does nothing!)")
+	print("[DeckOfFate] Remove p2 card '",card.name,"' (NOTE -> not implemented, does nothing!)")
 
 	## Move the card to the discard pile
 	#instance.dof_deck_manager.add_card_to_discard_pile(card)
