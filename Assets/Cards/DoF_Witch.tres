@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="DofCardStyleResource" load_steps=3 format=3 uid="uid://ca6b5gvvqwy7"]
+[gd_resource type="Resource" script_class="DofCardStyleResource" format=3 uid="uid://ca6b5gvvqwy7"]
 
-[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Cards/dof_card_style_res.gd" id="1_e82j3"]
+[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Scripts/Card Style Resources/dof_card_style_res.gd" id="1_e82j3"]
 [ext_resource type="Texture2D" uid="uid://bh5oaanwq2v5v" path="res://Assets/Images/art/witch.jpg" id="2_e82j3"]
 
 [resource]

@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="DofthiefStyleResource" load_steps=3 format=3 uid="uid://bh501i87ccdbm"]
+[gd_resource type="Resource" script_class="DofThiefStyleResource" format=3 uid="uid://b14sla3pir8l"]
 
-[ext_resource type="Script" path="res://Assets/Cards/dof_thief_style_res.gd" id="1_kxixr"]
-[ext_resource type="Texture2D" uid="uid://ckkna2vvnwn2l" path="res://Assets/Images/art/thief_6023864.png" id="2_kxixr"]
+[ext_resource type="Script" uid="uid://cujnl65nsaixj" path="res://Assets/Scripts/Card Style Resources/dof_thief_style_res.gd" id="1_fywmt"]
+[ext_resource type="Texture2D" uid="uid://ckkna2vvnwn2l" path="res://Assets/Images/art/thief_6023864.png" id="2_8fnbh"]
 
 [resource]
-script = ExtResource("1_kxixr")
+script = ExtResource("1_fywmt")
 card_name = "Thief"
 card_type = 1
 strength = 2
-top_texture = ExtResource("2_kxixr")
+top_texture = ExtResource("2_8fnbh")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"

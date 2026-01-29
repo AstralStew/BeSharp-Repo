@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="DofCardStyleResource" load_steps=3 format=3 uid="uid://bdwjb6sqwjfkw"]
+[gd_resource type="Resource" script_class="DofDragonStyleResource" format=3 uid="uid://bdwjb6sqwjfkw"]
 
-[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Cards/dof_card_style_res.gd" id="1_jgjw5"]
+[ext_resource type="Script" uid="uid://bobmwuk2p2uxn" path="res://Assets/Scripts/Card Style Resources/dof_dragon_style_res.gd" id="1_eo6mk"]
 [ext_resource type="Texture2D" uid="uid://dgt4r22o0j5bq" path="res://Assets/Images/Dragon.png" id="2_eo6mk"]
 
 [resource]
-script = ExtResource("1_jgjw5")
+script = ExtResource("1_eo6mk")
 card_name = "Dragon"
 card_type = 3
 strength = 5

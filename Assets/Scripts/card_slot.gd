@@ -9,6 +9,9 @@ var deckOfFate : DeckOfFate = null
 
 signal slot_clicked(slot)
 
+func is_full() -> bool:
+	return get_card_count() > 0
+
 func _ready() -> void:
 	if adjacent_left == null:
 		push_warning("[CardSlot(",name,")] ERROR -> No adjacent left victory slot assigned! :(")
@@ -20,11 +23,11 @@ func _ready() -> void:
 	super._ready()
 
 
-func _gui_input(event: InputEvent):	
+func _gui_input(event: InputEvent):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		if get_card_count() > 0:
-			print("[CardSlot(",name,")] Cannot select! Already has a card in slot.")
-			return
+		#if get_card_count() > 0:
+			#print("[CardSlot(",name,")] Cannot select! Already has a card in slot.")
+			#return
 		
 		print("[CardSlot(",name,")] Slot clicked!")
 		slot_clicked.emit()

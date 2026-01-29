@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="DofKnightStyleResource" load_steps=3 format=3 uid="uid://b0jdfici4m77s"]
+[gd_resource type="Resource" script_class="DofKnightStyleResource" format=3 uid="uid://b0jdfici4m77s"]
 
-[ext_resource type="Script" uid="uid://d0ou1mopd6r0j" path="res://Assets/Cards/dof_knight_style_res.gd" id="1_4tgi5"]
+[ext_resource type="Script" uid="uid://d0ou1mopd6r0j" path="res://Assets/Scripts/Card Style Resources/dof_knight_style_res.gd" id="1_4tgi5"]
 [ext_resource type="Texture2D" uid="uid://bbcnan25q5mu6" path="res://Assets/Images/art/knight.png" id="2_4tgi5"]
 
 [resource]

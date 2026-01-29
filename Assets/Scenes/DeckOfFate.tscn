@@ -1,30 +1,30 @@
-[gd_scene load_steps=23 format=3 uid="uid://p180ef84ps7w"]
+[gd_scene format=3 uid="uid://p180ef84ps7w"]
 
 [ext_resource type="Script" uid="uid://bj1c3rpld5lrr" path="res://Assets/Scripts/DeckOfFate.gd" id="1_6eug2"]
 [ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="2_u4grd"]
 [ext_resource type="Script" uid="uid://cj7pttaxyo1v0" path="res://Assets/Scripts/DoFDeckManager.gd" id="3_2lpbm"]
 [ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_yu6pi"]
-[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="5_2lpbm"]
 [ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="5_6eug2"]
 [ext_resource type="Resource" uid="uid://dxvrs554ytdp6" path="res://Assets/Cards/DoF_Assassin.tres" id="5_b8s1p"]
-[ext_resource type="Resource" uid="uid://bwf40d8nop3cl" path="res://Assets/Cards/DoF_Demon.tres" id="6_rveja"]
+[ext_resource type="Resource" uid="uid://djx1rt68ddfg7" path="res://Assets/Cards/DoF_Demon.tres" id="6_rveja"]
+[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="7_spmp6"]
 [ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="8_2lpbm"]
-[ext_resource type="Resource" uid="uid://cjf3vjpx4b67n" path="res://Assets/Cards/DoF_Jester.tres" id="8_spmp6"]
-[ext_resource type="Resource" uid="uid://b0jdfici4m77s" path="res://Assets/Cards/DoF_knight.tres" id="9_khlxv"]
+[ext_resource type="Resource" uid="uid://cjf3vjpx4b67n" path="res://Assets/Cards/DoF_Jester.tres" id="8_khlxv"]
+[ext_resource type="Resource" uid="uid://b0jdfici4m77s" path="res://Assets/Cards/DoF_knight.tres" id="9_ehpuh"]
 [ext_resource type="Script" uid="uid://v4hj4p4kc0m" path="res://Assets/Scripts/card_slot.gd" id="9_nmsih"]
-[ext_resource type="Resource" uid="uid://bxs74hi6vjn2a" path="res://Assets/Cards/DoF_Rat.tres" id="10_ehpuh"]
-[ext_resource type="Resource" uid="uid://ctsw7s1gss5a4" path="res://Assets/Cards/DoF_Seer.tres" id="11_e2vai"]
-[ext_resource type="Resource" uid="uid://ckqn576ho3ju4" path="res://Assets/Cards/DoF_ShieldBearer.tres" id="12_dcd3x"]
-[ext_resource type="Resource" uid="uid://b6cobb5d04rtv" path="res://Assets/Cards/DoF_Spy.tres" id="13_atm20"]
-[ext_resource type="Resource" uid="uid://co7yx0fggrdvt" path="res://Assets/Cards/DoF_Squire.tres" id="14_7s0l1"]
-[ext_resource type="Resource" uid="uid://bh501i87ccdbm" path="res://Assets/Cards/DoF_Thief.tres" id="15_hu0gv"]
-[ext_resource type="Resource" uid="uid://ca6b5gvvqwy7" path="res://Assets/Cards/DoF_Witch.tres" id="16_lpu51"]
-[ext_resource type="Resource" uid="uid://c03c0g7jrojio" path="res://Assets/Cards/DoF_Wizard.tres" id="17_0vgg4"]
+[ext_resource type="Resource" uid="uid://bxs74hi6vjn2a" path="res://Assets/Cards/DoF_Rat.tres" id="10_e2vai"]
+[ext_resource type="Resource" uid="uid://bopocwvby6vax" path="res://Assets/Cards/DoF_Seer.tres" id="11_dcd3x"]
+[ext_resource type="Resource" uid="uid://ckqn576ho3ju4" path="res://Assets/Cards/DoF_ShieldBearer.tres" id="12_atm20"]
+[ext_resource type="Resource" uid="uid://b6cobb5d04rtv" path="res://Assets/Cards/DoF_Spy.tres" id="13_7s0l1"]
+[ext_resource type="Resource" uid="uid://co7yx0fggrdvt" path="res://Assets/Cards/DoF_Squire.tres" id="14_hu0gv"]
+[ext_resource type="Resource" uid="uid://b14sla3pir8l" path="res://Assets/Cards/DoF_Thief.tres" id="15_lpu51"]
+[ext_resource type="Resource" uid="uid://ca6b5gvvqwy7" path="res://Assets/Cards/DoF_Witch.tres" id="16_0vgg4"]
+[ext_resource type="Resource" uid="uid://c03c0g7jrojio" path="res://Assets/Cards/DoF_Wizard.tres" id="17_o7sg1"]
 
 [sub_resource type="Resource" id="Resource_qaqnj"]
 script = ExtResource("3_yu6pi")
 deck_name = &"TestDeck"
-cards = Array[ExtResource("2_u4grd")]([ExtResource("5_b8s1p"), ExtResource("6_rveja"), ExtResource("5_2lpbm"), ExtResource("8_spmp6"), ExtResource("9_khlxv"), ExtResource("10_ehpuh"), ExtResource("11_e2vai"), ExtResource("12_dcd3x"), ExtResource("13_atm20"), ExtResource("14_7s0l1"), ExtResource("15_hu0gv"), ExtResource("16_lpu51"), ExtResource("17_0vgg4")])
+cards = Array[ExtResource("2_u4grd")]([ExtResource("5_b8s1p"), ExtResource("6_rveja"), ExtResource("7_spmp6"), ExtResource("8_khlxv"), ExtResource("9_ehpuh"), ExtResource("10_e2vai"), ExtResource("11_dcd3x"), ExtResource("12_atm20"), ExtResource("13_7s0l1"), ExtResource("14_hu0gv"), ExtResource("15_lpu51"), ExtResource("16_0vgg4"), ExtResource("17_o7sg1")])
 metadata/_custom_type_script = "uid://lhb5ry3o8icy"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8s1p"]
@@ -35,11 +35,11 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.46, 0.46, 0.46, 1)
 
-[node name="DeckOfFate" type="CanvasLayer" node_paths=PackedStringArray("victory_slots")]
+[node name="DeckOfFate" type="CanvasLayer" unique_id=1075070763 node_paths=PackedStringArray("victory_slots")]
 script = ExtResource("1_6eug2")
 victory_slots = [NodePath("VictoryDisplay/VictorySlot1"), NodePath("VictoryDisplay/VictorySlot2"), NodePath("VictoryDisplay/VictorySlot3"), NodePath("VictoryDisplay/VictorySlot4"), NodePath("VictoryDisplay/VictorySlot5"), NodePath("VictoryDisplay/VictorySlot6")]
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=524062610]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -48,13 +48,13 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=655360262]
 custom_minimum_size = Vector2(1000, 1000)
 layout_mode = 2
 theme_override_constants/separation = -50
 alignment = 1
 
-[node name="TextureRect2" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=986300672]
 modulate = Color(1, 1, 1, 0.41960785)
 layout_mode = 2
 size_flags_vertical = 3
@@ -64,7 +64,7 @@ stretch_mode = 5
 flip_h = true
 flip_v = true
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=1724844611]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -72,7 +72,7 @@ texture = ExtResource("8_2lpbm")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="P1ScoreDesc_VB" type="VBoxContainer" parent="."]
+[node name="P1ScoreDesc_VB" type="VBoxContainer" parent="." unique_id=757726541]
 custom_minimum_size = Vector2(100, 0)
 anchors_preset = 4
 anchor_top = 0.5
@@ -82,14 +82,14 @@ offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
 
-[node name="P1ScoreDesc_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB"]
+[node name="P1ScoreDesc_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB" unique_id=1469831318]
 layout_mode = 2
 text = "P1 Score"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="P1Score_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB"]
+[node name="P1Score_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB" unique_id=658339577]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 24
 text = "0"
@@ -97,7 +97,7 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="P2ScoreDesc_VB" type="VBoxContainer" parent="."]
+[node name="P2ScoreDesc_VB" type="VBoxContainer" parent="." unique_id=411146391]
 custom_minimum_size = Vector2(100, 0)
 anchors_preset = 6
 anchor_left = 1.0
@@ -110,14 +110,14 @@ offset_bottom = 30.5
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="P2ScoreDesc_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB"]
+[node name="P2ScoreDesc_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB" unique_id=271165457]
 layout_mode = 2
 text = "P2 Score"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="P2Score_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB"]
+[node name="P2Score_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB" unique_id=1944932997]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 24
 text = "0"
@@ -125,14 +125,14 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DoFDeckManager" type="Node" parent="." node_paths=PackedStringArray("draw_pile", "discard_pile")]
+[node name="DoFDeckManager" type="Node" parent="." unique_id=516426892 node_paths=PackedStringArray("draw_pile", "discard_pile")]
 script = ExtResource("3_2lpbm")
 show_cards = true
 starting_deck = SubResource("Resource_qaqnj")
 draw_pile = NodePath("Draw")
 discard_pile = NodePath("Discard")
 
-[node name="Draw" type="Control" parent="DoFDeckManager"]
+[node name="Draw" type="Control" parent="DoFDeckManager" unique_id=1100215357]
 custom_minimum_size = Vector2(90, 122)
 layout_mode = 3
 anchors_preset = 3
@@ -152,7 +152,7 @@ card_spacing = 0.0
 enable_reordering = false
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="DoFDeckManager/Draw"]
+[node name="ColorRect" type="ColorRect" parent="DoFDeckManager/Draw" unique_id=801269625]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -162,7 +162,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 1, 0.20000005, 0.5019608)
 
-[node name="Discard" type="Control" parent="DoFDeckManager"]
+[node name="Discard" type="Control" parent="DoFDeckManager" unique_id=1535478732]
 custom_minimum_size = Vector2(90, 122)
 layout_mode = 3
 anchors_preset = 0
@@ -176,7 +176,7 @@ card_spacing = 0.0
 enable_reordering = false
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="DoFDeckManager/Discard"]
+[node name="ColorRect" type="ColorRect" parent="DoFDeckManager/Discard" unique_id=335488179]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -186,7 +186,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.5019608)
 
-[node name="PlayerHand" type="Control" parent="."]
+[node name="PlayerHand" type="Control" parent="." unique_id=1532879754]
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
@@ -202,7 +202,7 @@ shape = 0
 card_spacing = 80.0
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="PlayerHand"]
+[node name="ColorRect" type="ColorRect" parent="PlayerHand" unique_id=401520247]
 z_index = -2
 custom_minimum_size = Vector2(300, 122)
 layout_mode = 1
@@ -214,7 +214,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.22526532, 0.2252653, 0.2252653, 0.5019608)
 
-[node name="VictoryDisplay" type="HBoxContainer" parent="."]
+[node name="VictoryDisplay" type="HBoxContainer" parent="." unique_id=398294927]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -229,7 +229,7 @@ grow_vertical = 2
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="VictorySlot1" type="Control" parent="VictoryDisplay" node_paths=PackedStringArray("adjacent_right")]
+[node name="VictorySlot1" type="Control" parent="VictoryDisplay" unique_id=2122172564 node_paths=PackedStringArray("adjacent_right")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("9_nmsih")
@@ -237,9 +237,9 @@ adjacent_right = NodePath("../VictorySlot2")
 shape = 0
 card_spacing = 0.0
 enable_reordering = false
-max_hand_size = 1
+max_hand_size = 2
 
-[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot1"]
+[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot1" unique_id=1450872780]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -253,7 +253,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
-[node name="VictorySlot2" type="Control" parent="VictoryDisplay" node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+[node name="VictorySlot2" type="Control" parent="VictoryDisplay" unique_id=1547183053 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("9_nmsih")
@@ -262,9 +262,9 @@ adjacent_right = NodePath("../VictorySlot3")
 shape = 0
 card_spacing = 0.0
 enable_reordering = false
-max_hand_size = 1
+max_hand_size = 2
 
-[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot2"]
+[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot2" unique_id=277244995]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -278,7 +278,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
-[node name="VictorySlot3" type="Control" parent="VictoryDisplay" node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+[node name="VictorySlot3" type="Control" parent="VictoryDisplay" unique_id=696577211 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("9_nmsih")
@@ -287,9 +287,9 @@ adjacent_right = NodePath("../VictorySlot4")
 shape = 0
 card_spacing = 0.0
 enable_reordering = false
-max_hand_size = 1
+max_hand_size = 2
 
-[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot3"]
+[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot3" unique_id=1609200123]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -303,7 +303,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
-[node name="VictorySlot4" type="Control" parent="VictoryDisplay" node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+[node name="VictorySlot4" type="Control" parent="VictoryDisplay" unique_id=772942682 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("9_nmsih")
@@ -312,9 +312,9 @@ adjacent_right = NodePath("../VictorySlot5")
 shape = 0
 card_spacing = 0.0
 enable_reordering = false
-max_hand_size = 1
+max_hand_size = 2
 
-[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot4"]
+[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot4" unique_id=298108973]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -328,7 +328,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
-[node name="VictorySlot5" type="Control" parent="VictoryDisplay" node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+[node name="VictorySlot5" type="Control" parent="VictoryDisplay" unique_id=958447954 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("9_nmsih")
@@ -337,9 +337,9 @@ adjacent_right = NodePath("../VictorySlot6")
 shape = 0
 card_spacing = 0.0
 enable_reordering = false
-max_hand_size = 1
+max_hand_size = 2
 
-[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot5"]
+[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot5" unique_id=2113870019]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -353,7 +353,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
-[node name="VictorySlot6" type="Control" parent="VictoryDisplay" node_paths=PackedStringArray("adjacent_left")]
+[node name="VictorySlot6" type="Control" parent="VictoryDisplay" unique_id=308410399 node_paths=PackedStringArray("adjacent_left")]
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("9_nmsih")
@@ -361,9 +361,9 @@ adjacent_left = NodePath("../VictorySlot5")
 shape = 0
 card_spacing = 0.0
 enable_reordering = false
-max_hand_size = 1
+max_hand_size = 2
 
-[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot6"]
+[node name="ColorRect" type="ColorRect" parent="VictoryDisplay/VictorySlot6" unique_id=1387798942]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -377,7 +377,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0.5019608)
 
-[node name="LeaderSlot" type="Control" parent="."]
+[node name="LeaderSlot" type="Control" parent="." unique_id=1651035360]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -395,7 +395,7 @@ enable_reordering = false
 max_hand_size = 1
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="LeaderSlot"]
+[node name="ColorRect" type="ColorRect" parent="LeaderSlot" unique_id=373487924]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -409,7 +409,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 0, 0, 0.5019608)
 
-[node name="SupportSlot" type="Control" parent="."]
+[node name="SupportSlot" type="Control" parent="." unique_id=77449282]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -429,7 +429,7 @@ enable_reordering = false
 max_hand_size = 1
 metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
 
-[node name="ColorRect" type="ColorRect" parent="SupportSlot"]
+[node name="ColorRect" type="ColorRect" parent="SupportSlot" unique_id=1197940603]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -443,7 +443,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0.049999714, 1, 0.5019608)
 
-[node name="PhaseLabel" type="RichTextLabel" parent="."]
+[node name="PhaseLabel" type="RichTextLabel" parent="." unique_id=1780601830]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(1000, 50)
 anchors_preset = 14
@@ -462,7 +462,7 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="PhaseLabel"]
+[node name="ColorRect" type="ColorRect" parent="PhaseLabel" unique_id=910902245]
 modulate = Color(1, 1, 1, 0.31764707)
 z_index = -1
 layout_mode = 1
@@ -474,7 +474,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="HelperText_MC" type="MarginContainer" parent="."]
+[node name="HelperText_MC" type="MarginContainer" parent="." unique_id=40023817]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -484,11 +484,11 @@ offset_right = 413.0
 offset_bottom = 160.0
 grow_vertical = 2
 
-[node name="HelperText_VB" type="VBoxContainer" parent="HelperText_MC"]
+[node name="HelperText_VB" type="VBoxContainer" parent="HelperText_MC" unique_id=196451914]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="HelperTextTitle_RTL" type="RichTextLabel" parent="HelperText_MC/HelperText_VB"]
+[node name="HelperTextTitle_RTL" type="RichTextLabel" parent="HelperText_MC/HelperText_VB" unique_id=1011199156]
 clip_contents = false
 custom_minimum_size = Vector2(20, 25)
 layout_mode = 2
@@ -500,7 +500,7 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="HelperText_MC/HelperText_VB/HelperTextTitle_RTL"]
+[node name="ColorRect" type="ColorRect" parent="HelperText_MC/HelperText_VB/HelperTextTitle_RTL" unique_id=887541934]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -511,13 +511,13 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0.34117648)
 metadata/_edit_use_anchors_ = true
 
-[node name="HelperText_RTL" type="RichTextLabel" parent="HelperText_MC/HelperText_VB"]
+[node name="HelperText_RTL" type="RichTextLabel" parent="HelperText_MC/HelperText_VB" unique_id=156828087]
 custom_minimum_size = Vector2(0, 82.44)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 16
 horizontal_alignment = 1
 
-[node name="Panel" type="Panel" parent="HelperText_MC"]
+[node name="Panel" type="Panel" parent="HelperText_MC" unique_id=504804045]
 z_index = -5
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b8s1p")

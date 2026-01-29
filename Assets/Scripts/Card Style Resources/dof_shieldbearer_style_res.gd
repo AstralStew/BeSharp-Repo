@@ -1,4 +1,4 @@
-class_name DofshieldbearerStyleResource extends DofCardStyleResource
+class_name DofShieldbearerStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFshieldbearerSR(",card_name,")] OnLeaderReveal. Adjusted!")

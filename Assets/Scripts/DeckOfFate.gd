@@ -25,7 +25,10 @@ static var instance:DeckOfFate = null
 @export var current_phase : phases = phases.TurnStart
 @export var first_draw_completed : bool = false
 @export var waiting_for_card : bool = false
+@export var waiting_for_playable_card : bool = false
 @export var waiting_for_slot : bool = false
+@export var waiting_for_empty_slot : bool = false
+@export var waiting_for_full_slot : bool = false
 @export var waiting_for_resolution : bool = false
 @export var selected_card : Card = null
 @export var selected_slot : CardSlot = null
@@ -38,8 +41,19 @@ enum phases {TurnStart, PickLeader, PickSupport, RevealSupport, RevealLeader, Ba
 signal card_selected
 signal slot_selected
 signal resolution_completed
+signal resolution_step
 
 var hand_size: int
+
+var backline_slots_available:bool:
+	get:
+		print("[DeckOfFate] Backline_slots_available getter...")
+		for slot in victory_slots:
+			print("[DeckOfFate] Slot '",slot,"' is ","full, continuing..." if slot.is_full() else "empty, good to go!")
+			if !slot.is_full():
+				return true
+		return false
+
 
 func _init() -> void:
 	CG.def_front_layout = "Default"
@@ -95,11 +109,12 @@ func _next_phase() -> void:
 			helper_label.text = "Pick a Leader from your hand"
 			# Wait till the player selects a card
 			waiting_for_card = true
+			waiting_for_playable_card = true
 			await card_selected
 			# Hide + disable the card from being grabbed etc
 			selected_card.flip()
 			selected_card.undraggable = true
-			selected_card.disabled = true
+			(selected_card.card_data as DofCardStyleResource).playable = false
 			# Add the card to the leader slot
 			leader_slot.add_card(selected_card)
 			selected_card = null
@@ -108,11 +123,12 @@ func _next_phase() -> void:
 			helper_label.text = "Pick a Support from your hand"
 			# Wait till the player selects a card
 			waiting_for_card = true
+			waiting_for_playable_card = true
 			await card_selected
 			# Hide + disable the card from being grabbed etc
 			selected_card.flip()
 			selected_card.undraggable = true
-			selected_card.disabled = true
+			(selected_card.card_data as DofCardStyleResource).playable = false
 			# Add the card to the support slot
 			support_slot.add_card(selected_card)
 			selected_card = null
@@ -205,31 +221,50 @@ func _next_phase() -> void:
 				await get_tree().create_timer(1).timeout
 		
 		phases.BacklineLeader:
-			# Make sure there is still a card in the slot
-			if leader_slot.get_card_count() > 0:
+			# Make sure there is still a card in Leader slot
+			if leader_slot.get_card_count() <= 0:
+				helper_label.text = "No Leader in slot! Skipping backlining them..."
+				await get_tree().create_timer(1).timeout
+			# Make sure there are backline slots available for them
+			elif !backline_slots_available:
+				helper_label.text = "No backline slots available! Removing Leader from game..."
+				remove_card_p1(leader_slot.get_card(0))
+				await get_tree().create_timer(1).timeout
+			else:
 				helper_label.text = "Select a backline slot for your Leader"
 				# Wait till the player selects a backline slot
 				waiting_for_slot = true
+				waiting_for_empty_slot = true
 				await slot_selected
 				# Add card to chosen backline slot
-				selected_slot.add_card(leader_slot.get_card(0))
+				if selected_slot.add_card(leader_slot.get_card(0)):
+					(selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot = selected_slot
+					print("Current slot = ", (selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot)
 				selected_slot = null
-			else: 
-				helper_label.text = "No Leader in slot! Skipping backlining them..."
+			
 		
 		phases.BacklineSupport:
-			# Make sure there is still a card in the slot
-			if support_slot.get_card_count() > 0:
+			# Make sure there is still a card in Support slot
+			if support_slot.get_card_count() <= 0:
+				helper_label.text = "No Support in slot! Skipping backlining them..."
+				await get_tree().create_timer(1).timeout
+			# Make sure there are backline slots available for them
+			elif !backline_slots_available:
+				helper_label.text = "No backline slots available! Removing Support from game..."
+				remove_card_p1(support_slot.get_card(0))
+				await get_tree().create_timer(1).timeout
+			else:
 				helper_label.text = "Select a backline slot for your Support"
 				# Wait till the player selects a backline slot
 				waiting_for_slot = true
+				waiting_for_empty_slot = true
 				await slot_selected
 				# Add card to chosen backline slot
-				selected_slot.add_card(support_slot.get_card(0))
+				if selected_slot.add_card(support_slot.get_card(0)):
+					(selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot = selected_slot
+					print("Current slot = ", (selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot)
 				selected_slot = null
-			else: 
-				helper_label.text = "No Support in slot! Skipping backlining them..."
-		
+			
 		phases.TurnEnd:
 			if current_round == number_of_rounds:
 				print("[DeckOfFate] TurnEnd - Reached end of game!")
@@ -249,24 +284,57 @@ func _next_phase() -> void:
 # This function is called when you click a card
 # DoFDeckManager connects each card's "card_clicked" signal to this function
 func select_card(card: Card) -> void:
-	# Cancel if we aren't waiting for a card
-	if !waiting_for_card: return
-	print("[DeckOfFate] Selected card: ",card)
-	# Tell the next_phase() loop we have selected this card
-	waiting_for_card = false
-	selected_card = card
-	card_selected.emit()
+	# Only if we are waiting for a card
+	if waiting_for_card: 
+		# Check to make sure this card is playable
+		if waiting_for_playable_card:
+			if !(card.card_data as DofCardStyleResource).playable:
+				print("[DeckOfFate] Selected card '",card,"' is not playable, ignoring.")
+				return
+			waiting_for_playable_card = false
+		print("[DeckOfFate] Selected card: ",card)
+		#  Mark that we have selected this card
+		waiting_for_card = false
+		selected_card = card
+		card_selected.emit()
+	elif waiting_for_slot:
+		print("[DeckOfFate] Selected card: ",card)
+		# Make sure the card is in a slot to continue
+		var chosen_slot = (card.card_data as DofCardStyleResource).current_slot
+		print("[DeckOfFate] Checking if card has a slot... ")
+		if chosen_slot == null:
+			print("[DeckOfFate] Chosen card has no slot! Cancelling.")
+			return
+		# Select the chosen slot
+		print("[DeckOfFate] Chosen card in slot '",chosen_slot,"', attempting to select it...")
+		select_slot(chosen_slot)
 
 # This function is called when you click a slot
 # Our custom script "CardSlot" connects its signal to this function
 func select_slot(slot: CardSlot) -> void:
+	print("[DeckOfFate] Select slot.")
 	# Cancel if we aren't waiting for a slot
-	if !waiting_for_slot: return
-	print("[DeckOfFate] Selected slot: ",slot)
-	# Tell the next_phase() loop we have selected this card
+	if !waiting_for_slot:
+		print("[DeckOfFate] Not waiting for a slot right now, ignoring.")
+		return
+	if waiting_for_empty_slot: 
+		# Check to make sure this slot hasn't already got a card
+		if slot.is_full():
+			print("[DeckOfFate] Waiting for an empty slot, but the selected slot '",slot,"' is full! Ignoring.")
+			return
+		waiting_for_empty_slot = false
+	elif waiting_for_full_slot:
+		# Check to make sure this slot already has a card
+		if !slot.is_full():
+			print("[DeckOfFate] Waiting for a full slot, but the selected slot '",slot,"' is empty! Ignoring.")
+			return
+		waiting_for_full_slot = false
+	# Tell the next_phase() loop we have selected this slot
 	waiting_for_slot = false
 	selected_slot = slot
 	slot_selected.emit()
+	
+
 
 static func complete_resolution() -> void:
 	print("[DeckOfFate] Resolution complete! Returning to next_phase() loop...")
@@ -459,6 +527,37 @@ static func remove_card_p2(card:Card):
 	## Move the card to the discard pile
 	#instance.dof_deck_manager.add_card_to_discard_pile(card)
 
+static func backline_hand_card_p1():
+	if !instance.backline_slots_available:
+		instance.helper_label.text = "No backline slots available! Cancelling effect..."
+		await instance.get_tree().create_timer(1).timeout
+		instance.resolution_step.emit()
+		return
+	print("[DeckOfFate] Backline p1 hand card...")
+	instance.helper_label.text = "Pick a card from your hand"
+	# Wait till the player selects a card
+	instance.waiting_for_card = true
+	instance.waiting_for_playable_card = true
+	await instance.card_selected
+	# Disable the card from being grabbed etc
+	instance.selected_card.undraggable = true
+	(instance.selected_card.card_data as DofCardStyleResource).playable = false
+	
+	instance.helper_label.text = "Select a backline slot for your card"
+	# Wait till the player selects a backline slot
+	instance.waiting_for_slot = true
+	instance.waiting_for_empty_slot = true
+	await instance.slot_selected
+	# Add card to chosen backline slot
+	if instance.selected_slot.add_card(instance.selected_card):
+		(instance.selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot = instance.selected_slot
+	
+	instance.selected_card = null
+	instance.selected_slot = null
+	instance.resolution_step.emit()
+
+static func backline_hand_card_p2():
+	print("[DeckOfFate] Backline p2 hand card (NOTE -> not implemented, does nothing!)")
 
 #endregion
 
@@ -485,21 +584,64 @@ static func clear_combat_strength_p2():
 
 #region Switch functions
 
-#static func switch_p1_backline_cards():
-	#print("[DeckOfFate] Switch 2 p1 backline cards...")
-	## Wait till the player selects a backline slot
-		#waiting_for_slot = true
-		#await slot_selected
-		## Add card to chosen backline slot
-		#selected_slot.add_card(leader_slot.get_card(0))
-		#selected_slot = null
+### Need to work out if this happens just before combat instead
+func swap_p1_leader_and_support():
+	print("[DeckOfFate] Swap p1 leader and support cards...")
+	helper_label.text = ("Swapping cards...")
+	var leader_card = leader_slot.get_card(0)
+	var support_card = support_slot.get_card(0)
+	leader_slot.clear_hand()
+	support_slot.clear_hand()
+	leader_slot.add_card(support_card)
+	support_slot.add_card(leader_card)
+	
+func swap_p1_backline_slots():
+	print("[DeckOfFate] Swap two p1 backline slots...")
+	var slot1 : CardSlot = null
+	var slot2 : CardSlot = null
+	# Let the player choose the first backline slot
+	helper_label.text = ("Choose 1st slot to swap")
+	while slot1 == null:
+		waiting_for_slot = true
+		await slot_selected
+		slot1 = selected_slot
+		selected_slot = null
+		print("[DeckOfFate] Slot1 = ", slot1)
+	# Let the player choose the second backline slot
+	helper_label.text = ("Choose 2nd slot to swap")
+	while slot2 == null:
+		waiting_for_slot = true
+		await slot_selected
+		slot2 = selected_slot if selected_slot != slot1 else null
+		selected_slot = null
+		print("[DeckOfFate] Slot2 = ", slot2)
+	# Swap cards between slots	
+	helper_label.text = ("Swapping cards...")
+	print("[DeckOfFate] Slot1 card = ", slot1.get_card(0))
+	if slot1.get_card(0) != null:
+		slot2.add_card(slot1.get_card(0))
+	print("[DeckOfFate] Slot2 card = ", slot2.get_card(0))
+	if slot2.get_card(0) != null:
+		slot1.add_card(slot2.get_card(0))
+	resolution_step.emit()
 
+
+func swap_p2_backline_slots():
+	print("[DeckOfFate] Swap 2 p1 backline cards... (not implemented, does nothing for now)...")
+	helper_label.text = ("Swap 2 p1 backline cards... (not implemented, does nothing for now)")
 
 
 #endregion
 
 
 #region Getters
+
+static func get_hand_size_p1() -> int:
+	return instance.player_hand.get_card_count()
+	
+static func get_hand_size_p2() -> int:
+	print("[DeckOfFate] Return p2 hand size! (not implemented, returns -1 for now)...")
+	return -1
 
 static func get_combat_result() -> CombatResult:
 	print("[DeckOfFate] Return combat result! Returning '",instance.combat_result,"'...")

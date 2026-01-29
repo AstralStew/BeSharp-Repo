@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="DofAssassinStyleResource" load_steps=3 format=3 uid="uid://dxvrs554ytdp6"]
+[gd_resource type="Resource" script_class="DofAssassinStyleResource" format=3 uid="uid://dxvrs554ytdp6"]
 
-[ext_resource type="Script" uid="uid://bu0jdnj4dsqbo" path="res://Assets/Cards/dof_assassin_style_res.gd" id="1_7ivxr"]
+[ext_resource type="Script" uid="uid://bu0jdnj4dsqbo" path="res://Assets/Scripts/Card Style Resources/dof_assassin_style_res.gd" id="1_7ivxr"]
 [ext_resource type="Texture2D" uid="uid://bh7dd18l6thu8" path="res://Assets/Images/art/assassin.webp" id="2_8clyi"]
 
 [resource]

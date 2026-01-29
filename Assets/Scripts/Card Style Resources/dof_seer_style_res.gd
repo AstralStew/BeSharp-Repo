@@ -1,4 +1,4 @@
-class_name DofseerStyleResource extends DofCardStyleResource
+class_name DofSeerStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFseerSR(",card_name,")] OnLeaderReveal. Adjusted!")

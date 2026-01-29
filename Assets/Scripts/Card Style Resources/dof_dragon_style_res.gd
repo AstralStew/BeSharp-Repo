@@ -1,4 +1,4 @@
-class_name DofdragonStyleResource extends DofCardStyleResource
+class_name DofDragonStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFdragonSR(",card_name,")] OnLeaderReveal. Adjusted!")
