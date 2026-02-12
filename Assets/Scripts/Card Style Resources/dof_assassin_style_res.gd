@@ -2,12 +2,12 @@ class_name DofAssassinStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFAssassinSR(",card_name,")] OnLeaderReveal. Adjusted!")
-	DeckOfFate.clear_combat_strength_p2()
+	#DeckOfFate.clear_combat_strength_p2()
 	super.on_leader_reveal()
 
 func on_support_reveal() -> void:
 	print("[DoFAssassinSR(",card_name,")] OnSupportReveal. Adjusted!")
-	DeckOfFate.add_combat_strength_p2(-2)
+	#DeckOfFate.add_combat_strength_p2(-2)
 	super.on_support_reveal()
 
 func on_combat_finished() -> void:

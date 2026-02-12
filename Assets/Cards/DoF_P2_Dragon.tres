@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DofDragonStyleResource" format=3 uid="uid://6g5vhv78x56j"]
+
+[ext_resource type="Script" uid="uid://bobmwuk2p2uxn" path="res://Assets/Scripts/Card Style Resources/dof_dragon_style_res.gd" id="1_th51d"]
+[ext_resource type="Texture2D" uid="uid://dgt4r22o0j5bq" path="res://Assets/Images/Dragon.png" id="2_hjn54"]
+
+[resource]
+script = ExtResource("1_th51d")
+card_name = "Dragon"
+card_type = 3
+strength = 5
+top_texture = ExtResource("2_hjn54")
+custom_layout_name = &"DoF_Layout"
+metadata/_custom_type_script = "uid://kvpm60dhjyt7"

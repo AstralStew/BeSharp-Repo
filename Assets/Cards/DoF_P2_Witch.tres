@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DofCardStyleResource" format=3 uid="uid://b22li88u6wgxa"]
+
+[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Scripts/Card Style Resources/dof_card_style_res.gd" id="1_sy531"]
+[ext_resource type="Texture2D" uid="uid://bh5oaanwq2v5v" path="res://Assets/Images/art/witch.jpg" id="2_r34x7"]
+
+[resource]
+script = ExtResource("1_sy531")
+card_name = "Witch"
+card_type = 2
+strength = 2
+top_texture = ExtResource("2_r34x7")
+custom_layout_name = &"DoF_Layout"
+metadata/_custom_type_script = "uid://kvpm60dhjyt7"

@@ -2,8 +2,8 @@ class_name DofKnightStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFKnightSR(",card_name,")] OnLeaderReveal.")
-	if DeckOfFate.get_leader_type_p2() == CardType.Monster:
-		DeckOfFate.add_combat_strength_p1(2)
+	#if DeckOfFate.get_leader_type_p2() == CardType.Monster:
+		#DeckOfFate.add_combat_strength_p1(2)
 	super.on_leader_reveal()
 
 func on_support_reveal() -> void:

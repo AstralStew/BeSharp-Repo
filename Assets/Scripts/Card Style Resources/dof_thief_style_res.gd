@@ -6,7 +6,7 @@ func on_leader_reveal() -> void:
 	
 func on_support_reveal() -> void:
 	print("[DoFthiefSR(",card_name,")] OnSupportReveal. Adjusted!")
-	DeckOfFate.draw_cards_p1(1)
+	#DeckOfFate.draw_cards_p1(1)
 	super.on_support_reveal()
 
 func on_combat_finished() -> void:

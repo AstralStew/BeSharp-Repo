@@ -1,10 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cu3pab84su48f"]
+[gd_scene format=3 uid="uid://cu3pab84su48f"]
 
 [ext_resource type="Script" uid="uid://bisyk4bowdvsf" path="res://addons/simple_cards/deck/manager/card_deck_manager.gd" id="1_n8xk4"]
 [ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="2_uey6u"]
 [ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="3_f0nvx"]
 [ext_resource type="Script" uid="uid://dowgud10rp5yf" path="res://addons/simple_cards/card/card.gd" id="4_x2qdq"]
-[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_dragon.tres" id="5_ypuvs"]
+[ext_resource type="Resource" uid="uid://bdwjb6sqwjfkw" path="res://Assets/Cards/DoF_P1_Dragon.tres" id="5_ypuvs"]
 
 [sub_resource type="Resource" id="Resource_x2qdq"]
 script = ExtResource("3_f0nvx")

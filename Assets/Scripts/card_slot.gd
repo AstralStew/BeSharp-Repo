@@ -2,7 +2,7 @@
 class_name CardSlot extends CardHand
 # THIS IS OURS! We made this class from scratch!
 
-var deckOfFate : DeckOfFate = null
+var player_manager : PlayerManager = null
 
 @export var adjacent_left : CardSlot = null
 @export var adjacent_right : CardSlot = null
@@ -12,15 +12,18 @@ signal slot_clicked(slot)
 func is_full() -> bool:
 	return get_card_count() > 0
 
-func _ready() -> void:
+func initialise_slot() -> void:
+	if player_manager == null:
+		push_error("[CardSlot] ERROR -> No PlayerManager defined! :(")
+		return
+	
 	if adjacent_left == null:
 		push_warning("[CardSlot(",name,")] ERROR -> No adjacent left victory slot assigned! :(")
 	if adjacent_right == null:
 		push_warning("[CardSlot(",name,")] ERROR -> No adjacent right victory slot assigned! :(")
-	deckOfFate = find_parent("DeckOfFate")
-	slot_clicked.connect(deckOfFate.select_slot.bind(self))
+		
+	slot_clicked.connect(player_manager.select_slot.bind(self))
 	
-	super._ready()
 
 
 func _gui_input(event: InputEvent):
