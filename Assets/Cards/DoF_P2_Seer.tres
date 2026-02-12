@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DofSeerStyleResource" format=3 uid="uid://c50msl6k6u7v8"]
+
+[ext_resource type="Script" uid="uid://cpul4kpfn2lbp" path="res://Assets/Scripts/Card Style Resources/dof_seer_style_res.gd" id="1_pst2v"]
+[ext_resource type="Texture2D" uid="uid://coe3vj3rdhnm5" path="res://Assets/Images/art/vecteezy_a-wizard-cartoon-character-holding-staff-on-white-background_8332325.jpg" id="2_rbhk5"]
+
+[resource]
+script = ExtResource("1_pst2v")
+card_name = "Seer"
+card_type = 2
+strength = 1
+top_texture = ExtResource("2_rbhk5")
+custom_layout_name = &"DoF_Layout"
+metadata/_custom_type_script = "uid://kvpm60dhjyt7"

@@ -2,7 +2,7 @@ class_name DofSeerStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
 	print("[DoFseerSR(",card_name,")] OnLeaderReveal. Adjusted!")
-	DeckOfFate.draw_cards_p1(2)
+	#DeckOfFate.draw_cards_p1(2)
 	super.on_leader_reveal()
 
 func on_support_reveal() -> void:

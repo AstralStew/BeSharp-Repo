@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DofDemonStyleResource" format=3 uid="uid://p2c80xbsgqle"]
+
+[ext_resource type="Script" uid="uid://bxfq7xqcbr753" path="res://Assets/Scripts/Card Style Resources/dof_demon_style_res.gd" id="1_koneb"]
+[ext_resource type="Texture2D" uid="uid://bk2tef86kixhb" path="res://Assets/Images/art/demon.jpg" id="2_rekxl"]
+
+[resource]
+script = ExtResource("1_koneb")
+card_name = "Demon"
+card_type = 3
+strength = 4
+top_texture = ExtResource("2_rekxl")
+custom_layout_name = &"DoF_Layout"
+metadata/_custom_type_script = "uid://kvpm60dhjyt7"

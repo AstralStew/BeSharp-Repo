@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DofCardStyleResource" format=3 uid="uid://ckac0b58sb2fh"]
+
+[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Scripts/Card Style Resources/dof_card_style_res.gd" id="1_xw4vt"]
+[ext_resource type="Texture2D" uid="uid://yyapjifa5rjq" path="res://Assets/Images/art/vecteezy_cartoon-old-wizard-holding-stick_.jpg" id="2_b02gy"]
+
+[resource]
+script = ExtResource("1_xw4vt")
+card_name = "Wizard"
+card_type = 2
+strength = 3
+top_texture = ExtResource("2_b02gy")
+custom_layout_name = &"DoF_Layout"
+metadata/_custom_type_script = "uid://kvpm60dhjyt7"

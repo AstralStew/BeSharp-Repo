@@ -10,11 +10,11 @@ func on_support_reveal() -> void:
 
 func on_combat_finished() -> void:
 	print("[DoFdemonSR(",card_name,")] OnCombatFinished.")
-	if (DeckOfFate.get_leader_p1().card_data as DofCardStyleResource).card_name == "Demon":
-		DeckOfFate.remove_card_p1(DeckOfFate.get_leader_p1())
-	elif DeckOfFate.get_combat_result() == DeckOfFate.CombatResult.win:
-		DeckOfFate.add_points_p1(1)
-		DeckOfFate.remove_card_p1(DeckOfFate.get_leader_p1())
+	#if (DeckOfFate.get_leader_p1().card_data as DofCardStyleResource).card_name == "Demon":
+		#DeckOfFate.remove_card_p1(DeckOfFate.get_leader_p1())
+	#elif DeckOfFate.get_combat_result() == DeckOfFate.CombatResult.win:
+		#DeckOfFate.add_points_p1(1)
+		#DeckOfFate.remove_card_p1(DeckOfFate.get_leader_p1())
 	super.on_combat_finished()
 
 func on_enter_backline() -> void:
