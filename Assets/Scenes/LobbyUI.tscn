@@ -78,6 +78,15 @@ text = "Host"
 layout_mode = 2
 text = "Join"
 
+[node name="Label_GameStarting" type="Label" parent="." unique_id=1464468871]
+visible = false
+offset_left = 20.0
+offset_top = 719.0
+offset_right = 1004.0
+offset_bottom = 742.0
+text = "Player connected! Starting game in 3..."
+horizontal_alignment = 1
+
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/LineEdit_Name" to="." method="_on_line_edit_name_text_changed"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer2/LineEdit_IPAddress" to="." method="_on_line_edit_ip_address_text_changed"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer3/LineEdit_Port" to="." method="_on_line_edit_port_text_changed"]

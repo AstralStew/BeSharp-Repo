@@ -1,0 +1,181 @@
+[gd_scene format=3 uid="uid://bdgxbo76y0dhv"]
+
+[ext_resource type="Script" uid="uid://b51rp7ptg60n" path="res://Assets/Scripts/GameManager.gd" id="1_s84e4"]
+[ext_resource type="Texture2D" uid="uid://c0rds04nv27pg" path="res://Assets/Images/Board layout.png" id="2_bd8by"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8s1p"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46, 0.46, 0.46, 1)
+
+[node name="GameManager" type="CanvasLayer" unique_id=1075070763]
+script = ExtResource("1_s84e4")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=524062610]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=655360262]
+custom_minimum_size = Vector2(1000, 1000)
+layout_mode = 2
+theme_override_constants/separation = -50
+alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=986300672]
+modulate = Color(1, 1, 1, 0.41960785)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_bd8by")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+flip_v = true
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=1724844611]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_bd8by")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="P1ScoreDesc_VB" type="VBoxContainer" parent="." unique_id=757726541]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="P1ScoreDesc_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB" unique_id=1469831318]
+layout_mode = 2
+text = "P1 Score"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P1Score_RTL" type="RichTextLabel" parent="P1ScoreDesc_VB" unique_id=658339577]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "0"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2ScoreDesc_VB" type="VBoxContainer" parent="." unique_id=411146391]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -30.5
+offset_bottom = 30.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="P2ScoreDesc_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB" unique_id=271165457]
+layout_mode = 2
+text = "P2 Score"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2Score_RTL" type="RichTextLabel" parent="P2ScoreDesc_VB" unique_id=1944932997]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "0"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PhaseLabel" type="RichTextLabel" parent="." unique_id=1780601830]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(1000, 50)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -27.5
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 40
+text = "Phase"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="PhaseLabel" unique_id=910902245]
+modulate = Color(1, 1, 1, 0.31764707)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="HelperText_MC" type="MarginContainer" parent="." unique_id=40023817]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 114.0
+offset_top = 44.0
+offset_right = 413.0
+offset_bottom = 160.0
+grow_vertical = 2
+
+[node name="HelperText_VB" type="VBoxContainer" parent="HelperText_MC" unique_id=196451914]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="HelperTextTitle_RTL" type="RichTextLabel" parent="HelperText_MC/HelperText_VB" unique_id=1011199156]
+clip_contents = false
+custom_minimum_size = Vector2(20, 25)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "NOTES"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="HelperText_MC/HelperText_VB/HelperTextTitle_RTL" unique_id=887541934]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.34117648)
+metadata/_edit_use_anchors_ = true
+
+[node name="HelperText_RTL" type="RichTextLabel" parent="HelperText_MC/HelperText_VB" unique_id=156828087]
+custom_minimum_size = Vector2(0, 82.44)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="HelperText_MC" unique_id=504804045]
+z_index = -5
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b8s1p")

@@ -52,7 +52,7 @@ func join_game(address = "", port = ""):
 	multiplayer.multiplayer_peer = peer
 
 
-func create_game(port = 0):	
+func create_game(port = 0):
 	print("[Lobby] Host game!")
 	if port < 1024:
 		push_error(_debug_name," ERROR -> Bad port entered, reverting to 7000")
@@ -86,7 +86,7 @@ func player_loaded():
 		print(_debug_name," Player loaded")
 		players_loaded += 1
 		if players_loaded == players.size():
-			$/root/Game.start_game()
+			$/root/GameManager.start_game()
 			players_loaded = 0
 
 
