@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://clwupx0w68wf"]
+
+[ext_resource type="Script" uid="uid://c7ood3i5of4y" path="res://Assets/Scripts/LobbyUI.gd" id="1_76pol"]
+
+[node name="LobbyUI" type="CanvasLayer" unique_id=1241686665]
+script = ExtResource("1_76pol")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=309408028]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2096768711]
+custom_minimum_size = Vector2(360, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2091868998]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=641557093]
+layout_mode = 2
+text = "Name:"
+horizontal_alignment = 1
+
+[node name="LineEdit_Name" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=274338726]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Write a unique username here"
+caret_blink = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=111757542]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2023533707]
+layout_mode = 2
+text = "IP address:"
+horizontal_alignment = 1
+
+[node name="LineEdit_IPAddress" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=587294208]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "127.0.0.1"
+caret_blink = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=639794359]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=2022960312]
+layout_mode = 2
+text = "Port:"
+horizontal_alignment = 1
+
+[node name="LineEdit_Port" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer3" unique_id=580003630]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "7000"
+caret_blink = true
+
+[node name="HostButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=620216066]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1858100759]
+layout_mode = 2
+text = "Join"
+
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/LineEdit_Name" to="." method="_on_line_edit_name_text_changed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer2/LineEdit_IPAddress" to="." method="_on_line_edit_ip_address_text_changed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer3/LineEdit_Port" to="." method="_on_line_edit_port_text_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
