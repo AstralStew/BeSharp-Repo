@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="DofCardStyleResource" format=3 uid="uid://bxs74hi6vjn2a"]
+[gd_resource type="Resource" script_class="DofRatStyleResource" format=3 uid="uid://bxs74hi6vjn2a"]
 
-[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Scripts/Card Style Resources/dof_card_style_res.gd" id="1_6wxrs"]
+[ext_resource type="Script" uid="uid://cs5c1cuqr78y4" path="res://Assets/Scripts/Card Style Resources/dof_rat_style_res.gd" id="1_jwa15"]
 [ext_resource type="Texture2D" uid="uid://fqbg7untyxew" path="res://Assets/Images/art/rat.jpg" id="2_6wxrs"]
 
 [resource]
-script = ExtResource("1_6wxrs")
+script = ExtResource("1_jwa15")
 card_name = "Plague Rat"
 card_type = 3
 top_texture = ExtResource("2_6wxrs")

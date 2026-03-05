@@ -1,27 +1,28 @@
 class_name DofKnightStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
-	print("[DoFKnightSR(",card_name,")] OnLeaderReveal.")
-	#if DeckOfFate.get_leader_type_p2() == CardType.Monster:
-		#DeckOfFate.add_combat_strength_p1(2)
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFKnightSR] OnLeaderReveal.")
+	
+	# Leader ability > Gain 2 strength counters if opponent is Monster
+	if player_manager.get_other_player().get_leader_type() == CardType.Monster:
+		player_manager.adjust_strength_counters(2)
+	
 	super.on_leader_reveal()
 
-func on_support_reveal() -> void:
-	print("[DoFKnightSR(",card_name,")] OnSupportReveal. Adjusted!")
-	super.on_support_reveal()
-
 func on_combat_finished() -> void:
-	print("[DoFKnightSR(",card_name,")] OnCombatFinished.")
-	super.on_combat_finished()
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFKnightSR] OnCombatFinished.")
 	
-func on_enter_backline() -> void:
-	print("[DoFKnightSR(",card_name,")] OnEnterBackline.")
-	super.on_enter_backline()
+	# Support ability > Gain 1 point if we won combat by 2+
+	if !was_leader && player_manager.get_relative_strength() >= 2:
+		player_manager.adjust_points(1)
+	
+	super.on_combat_finished()
+
 
 func calculate_adjacency(card:DofCardStyleResource) -> bool:
-	print("[DoFKnightSR(",card_name,")] CalculateAdjacency, using '",card,"'")
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFKnightSR] CalculateAdjacency, using '",card,"'")
 	if card.card_name == "Dragon":
-		print("[DoFSquireSR(",card_name,")] 'Dragon' found! Returning true!")
+		print("[DoFCSR(",player_manager,"/",card_name,"/DoFKnightSR] 'Dragon' found! Returning true!")
 		return true
-	print("[DoFSquireSR(",card_name,")] No 'Dragon' found :( Returning false.")
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFKnightSR] No 'Dragon' found :( Returning false.")
 	return false

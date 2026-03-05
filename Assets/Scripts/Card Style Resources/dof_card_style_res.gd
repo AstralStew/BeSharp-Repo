@@ -13,17 +13,19 @@ var player_manager : PlayerManager
 var current_slot : CardSlot
 var playable : bool = true
 
+var was_leader:bool = false
+
 func on_leader_reveal() -> void:
 	print("[DoFCSR(",player_manager,"/",card_name,")] OnLeaderReveal finished, sending completed resolution signal...")
-	#DeckOfFate.instance.swap_p1_backline_slots()
-	#await DeckOfFate.instance.resolution_step
+	was_leader = true
+	
 	await player_manager.get_tree().process_frame
 	player_manager.complete_resolution()
 	
 func on_support_reveal() -> void:
 	print("[DoFCSR(",player_manager,"/",card_name,")] OnSupportReveal finished, sending completed resolution signal...")
-	#DeckOfFate.instance.remove_backline_card_p1()
-	#await DeckOfFate.instance.resolution_step
+	was_leader = false
+	
 	await player_manager.get_tree().process_frame
 	player_manager.complete_resolution()
 

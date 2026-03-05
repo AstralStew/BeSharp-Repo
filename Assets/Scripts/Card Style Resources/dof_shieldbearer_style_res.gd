@@ -1,30 +1,26 @@
 class_name DofShieldbearerStyleResource extends DofCardStyleResource
 
-func on_leader_reveal() -> void:
-	print("[DoFshieldbearerSR(",card_name,")] OnLeaderReveal. Adjusted!")
-	super.on_leader_reveal()
-
-func on_support_reveal() -> void:
-	print("[DoFshieldbearerSR(",card_name,")] OnSupportReveal. Adjusted!")
-	#DeckOfFate.draw_cards_p1(2)
-	super.on_support_reveal()
 
 func on_combat_finished() -> void:
-	print("[DoFshieldbearerSR(",card_name,")] OnCombatFinished.")
-	#if DeckOfFate.get_combat_result() == DeckOfFate.CombatResult.loss:
-		#DeckOfFate.return_to_hand_p1(DeckOfFate.get_leader_p1())
-		#if (DeckOfFate.get_support_p1().card_data as DofCardStyleResource).card_name == "Shieldbearer":
-			#DeckOfFate.remove_card_p1(DeckOfFate.get_support_p1())
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFShieldBearerSR] OnCombatFinished.")
+	
+	if !player_manager.did_i_win:
+		
+		# Leader ability > On loss, return leader (i.e. itself)
+		player_manager.return_to_hand(player_manager.get_leader())
+	
+		# Support ability > On loss, return leader (above) + remove itself 
+		if !was_leader:
+			player_manager.remove_card(player_manager.get_support())
+	
 	super.on_combat_finished()
 
-func on_enter_backline() -> void:
-	print("[DoFshieldbearerSR(",card_name,")] OnEnterBackline.")
-	super.on_enter_backline()
+
 
 func calculate_adjacency(card:DofCardStyleResource) -> bool:
-	print("[DoFshieldbearerSR(",card_name,")] CalculateAdjacency, using '",card,"'")
-	if card.card_name == "Assassin":
-		print("[DoFshieldbearerSR(",card_name,")] 'Assassin' found! Returning true!")
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFSquireBearerSR] CalculateAdjacency, using '",card,"'")
+	if card.card_name == "Squire":
+		print("[DoFCSR(",player_manager,"/",card_name,"/DoFSquireBearerSR] 'Squire' found! Returning true!")
 		return true
-	print("[DoFshieldbearerSR(",card_name,")] No 'Assassin' found :( Returning false.")
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFSquireBearerSR] No 'Squire' found :( Returning false.")
 	return false

@@ -9,7 +9,6 @@ class_name PlayerManager extends Node
 @export var victory_slots: Array[CardSlot] # set by hand in inspector
 
 @export_category("READ ONLY")
-@export var combat_tokens : int = 0
 @export var waiting_for_card : bool = false
 @export var waiting_for_playable_card : bool = false
 @export var waiting_for_slot : bool = false
@@ -24,7 +23,6 @@ signal slot_selected
 signal resolution_completed
 signal resolution_step
 
-var hand_size: int
 
 var backline_slots_available:bool:
 	get:
@@ -44,6 +42,8 @@ var backline_empty:bool:
 				return false
 		return true
 
+var did_i_win:bool:
+	get: return get_my_combat_result() == DeckOfFate.MyCombatResult.win
 
 
 func _init() -> void:
@@ -118,6 +118,8 @@ func reveal_leader() -> void:
 	DeckOfFate.player_ready(self)
 
 func post_combat_support() -> void:
+	
+	# Perform the post-combat ability
 	get_support_data().on_combat_finished()
 	await resolution_completed
 	
@@ -144,6 +146,7 @@ func backline_leader() -> void:
 		remove_card(leader_slot.get_card(0))
 		await get_tree().create_timer(1).timeout
 	else:
+		var saved_card = get_leader_data()
 		# Wait till the player selects a backline slot
 		waiting_for_slot = true
 		waiting_for_empty_slot = true
@@ -153,6 +156,10 @@ func backline_leader() -> void:
 			(selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot = selected_slot
 			print("Current slot = ", (selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot)
 		selected_slot = null
+		
+		# Perform the backline ability
+		saved_card.on_enter_backline()
+		await resolution_completed
 	
 	# Tell DeckOfFate we are ready to continue
 	DeckOfFate.player_ready(self)
@@ -170,6 +177,7 @@ func backline_support() ->void:
 		remove_card(support_slot.get_card(0))
 		await get_tree().create_timer(1).timeout
 	else:
+		var saved_card = get_support_data()
 		# Wait till the player selects a backline slot
 		waiting_for_slot = true
 		waiting_for_empty_slot = true
@@ -179,6 +187,10 @@ func backline_support() ->void:
 			(selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot = selected_slot
 			print("Current slot = ", (selected_slot.get_card(0).card_data as DofCardStyleResource).current_slot)
 		selected_slot = null
+		
+		# Perform the backline ability
+		saved_card.on_enter_backline()
+		await resolution_completed
 	
 	# Tell DeckOfFate we are ready to continue
 	DeckOfFate.player_ready(self)
@@ -282,7 +294,7 @@ func end_game() -> void:
 			if my_card.calculate_adjacency(right_card):
 				has_adjacency = true
 		if has_adjacency:
-			DeckOfFate.add_points(self,1)
+			adjust_points(1)
 	
 
 
@@ -327,15 +339,29 @@ func remove_card(card:Card):
 #endregion
 
 
-#region Combat token functions
+#region Points functions
 
-func add_combat_strength(amount:int):
-	print("[PlayerManager(",name,")] Add strength tokens to leader:", amount)
-	combat_tokens += amount
+func adjust_points(amount:int,player:PlayerManager = self):
+	print("[PlayerManager(",name,")] Add ",amount," points to ",player)	
+	#var _player = player if player != null else self
+	DeckOfFate.add_points(amount,player)
 
-func clear_combat_strength():
-	print("[PlayerManager(",name,")] Clear all strength tokens from leader")
-	combat_tokens = 0
+
+#endregion
+
+
+
+#region Strength counters functions
+
+func adjust_strength_counters(amount:int,player:PlayerManager = self):
+	print("[PlayerManager(",name,")] Add ",amount," strength counters to ",player)
+	#var _player = player if player != null else self
+	DeckOfFate.adjust_strength_counters(amount,player)
+
+func clear_strength_counters(player:PlayerManager = self):
+	print("[PlayerManager(",name,")] Clear all strength counters from ",player)
+	#var _player = player if player != null else self
+	DeckOfFate.clear_strength_counters(player)
 
 #endregion
 
@@ -390,7 +416,14 @@ func swap_backline_slots():
 
 
 func backline_hand_card():
-	if !backline_slots_available:
+	# Make sure player has hand cards
+	if get_hand_size() == 0:
+		DeckOfFate.set_helper_message("No cards in hand! Cancelling effect.")
+		await get_tree().create_timer(1).timeout
+		resolution_step.emit()
+		return
+	# Make sure player has backline slots
+	elif !backline_slots_available:
 		DeckOfFate.set_helper_message("No backline slots available! Cancelling effect.")
 		await get_tree().create_timer(1).timeout
 		resolution_step.emit()
@@ -419,6 +452,25 @@ func backline_hand_card():
 	resolution_step.emit()
 
 
+func remove_hand_card():
+	# Make sure player has hand cards
+	if get_hand_size() == 0:
+		DeckOfFate.set_helper_message("No cards in hand! Cancelling effect.")
+		await get_tree().create_timer(1).timeout
+		resolution_step.emit()
+		return
+	print("[PlayerManager(",name,")] Remove hand card...")
+	DeckOfFate.set_helper_message("Select a card in hand to remove")
+	# Wait till the player selects a hand card
+	waiting_for_card = true
+	waiting_for_playable_card = true
+	await card_selected
+	# Remove the card from the game
+	remove_card(selected_card)
+	
+	selected_slot = null
+	resolution_step.emit()
+
 func remove_backline_card():
 	if backline_empty:
 		DeckOfFate.set_helper_message("No cards in backline! Cancelling effect.")
@@ -433,7 +485,7 @@ func remove_backline_card():
 	await slot_selected
 	# Remove the card from the game
 	remove_card(selected_slot.get_card(0))
-		
+	
 	selected_slot = null
 	resolution_step.emit()
 
@@ -445,9 +497,13 @@ func remove_backline_card():
 func get_hand_size() -> int:
 	return player_hand.get_card_count()
 
-func get_combat_result() -> DeckOfFate.CombatResult:
-	print("[PlayerManager(",name,")] Get combat result! Returning '",DeckOfFate.last_combat_result,"'...")
-	return DeckOfFate.last_combat_result
+func get_my_combat_result() -> DeckOfFate.MyCombatResult:
+	print("[PlayerManager(",name,")] Get combat result! Returning '",DeckOfFate.last_combat_result(self),"'...")
+	return DeckOfFate.last_combat_result(self)
+
+func get_relative_strength() -> int:
+	print("[PlayerManager(",name,")] Get relative strength! Returning '",DeckOfFate.relative_final_strength(self),"'...")
+	return DeckOfFate.relative_final_strength(self)
 
 func get_leader() -> Card:
 	if !leader_slot.is_hand_full():
@@ -492,5 +548,8 @@ func get_support_type() -> DofCardStyleResource.CardType:
 		return DofCardStyleResource.CardType.NULL
 	print("[PlayerManager(",name,")] Get support card type! Returning '",(support_slot.get_card(0).card_data as DofCardStyleResource).card_type,"'...")
 	return (support_slot.get_card(0).card_data as DofCardStyleResource).card_type
+
+func get_other_player() -> PlayerManager:
+	return DeckOfFate.other_player(self)
 
 #endregion

@@ -1,27 +1,26 @@
 class_name DofAssassinStyleResource extends DofCardStyleResource
 
 func on_leader_reveal() -> void:
-	print("[DoFAssassinSR(",card_name,")] OnLeaderReveal. Adjusted!")
-	#DeckOfFate.clear_combat_strength_p2()
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFAssassinSR] OnLeaderReveal.")
+	
+	# Leader ability > Clear strength counters from opponent
+	player_manager.get_other_player().clear_strength_counters()
+	
 	super.on_leader_reveal()
 
 func on_support_reveal() -> void:
-	print("[DoFAssassinSR(",card_name,")] OnSupportReveal. Adjusted!")
-	#DeckOfFate.add_combat_strength_p2(-2)
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFAssassinSR] OnSupportReveal.")
+	
+	# Support ability > Remove 2 strength from opponent
+	player_manager.get_other_player().adjust_strength_counters(-2)
+	
 	super.on_support_reveal()
 
-func on_combat_finished() -> void:
-	print("[DoFAssassinSR(",card_name,")] OnCombatFinished.")
-	super.on_combat_finished()
-
-func on_enter_backline() -> void:
-	print("[DoFAssassinSR(",card_name,")] OnEnterBackline.")
-	super.on_enter_backline()
 
 func calculate_adjacency(card:DofCardStyleResource) -> bool:
-	print("[DoFAssassinSR(",card_name,")] CalculateAdjacency, using '",card,"'")
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFAssassinSR] CalculateAdjacency, using '",card,"'")
 	if card.card_name == "ShieldBearer":
-		print("[DoFAssassinSR(",card_name,")] 'ShieldBearer' found! Returning true!")
+		print("[DoFCSR(",player_manager,"/",card_name,"/DoFAssassinSR] 'ShieldBearer' found! Returning true!")
 		return true
-	print("[DoFAssassinSR(",card_name,")] No 'ShieldBearer' found :( Returning false.")
+	print("[DoFCSR(",player_manager,"/",card_name,"/DoFAssassinSR] No 'ShieldBearer' found :( Returning false.")
 	return false

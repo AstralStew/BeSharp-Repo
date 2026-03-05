@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="DofCardStyleResource" format=3 uid="uid://ckac0b58sb2fh"]
+[gd_resource type="Resource" script_class="DofWizardStyleResource" format=3 uid="uid://ckac0b58sb2fh"]
 
-[ext_resource type="Script" uid="uid://kvpm60dhjyt7" path="res://Assets/Scripts/Card Style Resources/dof_card_style_res.gd" id="1_xw4vt"]
+[ext_resource type="Script" uid="uid://cxur85doox0ya" path="res://Assets/Scripts/Card Style Resources/dof_wizard_style_res.gd" id="1_xw4vt"]
 [ext_resource type="Texture2D" uid="uid://yyapjifa5rjq" path="res://Assets/Images/art/vecteezy_cartoon-old-wizard-holding-stick_.jpg" id="2_b02gy"]
 
 [resource]
