@@ -1,11 +1,11 @@
-class_name PlayerManager extends Node
+class_name PlayerManager extends CanvasLayer
 #Manages all deck functions etc for a player
 
 @export_category("REFERENCES")
 @onready var deck_manager: DoFDeckManager = $DeckManager
-@onready var leader_slot: CardHand = $LeaderSlot
-@onready var support_slot: CardHand = $SupportSlot
-@onready var player_hand: CardHand = $Hand
+@onready var leader_slot: CardHand = $Elements/LeaderSlot
+@onready var support_slot: CardHand = $Elements/SupportSlot
+@onready var player_hand: CardHand = $Elements/Hand
 @export var victory_slots: Array[CardSlot] # set by hand in inspector
 
 @export_category("READ ONLY")

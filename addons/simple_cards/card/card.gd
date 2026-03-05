@@ -66,7 +66,7 @@ func _init(card_resource: CardResource = null) -> void:
 	name = "card_" + str(CG.card_index)
 	CG.card_index += 1
 	if card_resource:
-		card_data = card_resource
+		card_data = card_resource.duplicate()
 		if CG.get_available_layouts().has(card_data.custom_layout_name):
 			front_layout_name = card_data.custom_layout_name
 		

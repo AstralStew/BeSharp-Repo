@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardDeck" format=3 uid="uid://b2if5vfroui2h"]
+
+[ext_resource type="Script" uid="uid://c8315v58tr66b" path="res://addons/simple_cards/card/card_resource/card_resource.gd" id="1_6emmq"]
+[ext_resource type="Resource" uid="uid://40kytudxok5o" path="res://Assets/Cards/DoF_Assassin.tres" id="2_6emmq"]
+[ext_resource type="Resource" uid="uid://doshcg1e1oge2" path="res://Assets/Cards/DoF_Demon.tres" id="3_r7liu"]
+[ext_resource type="Resource" uid="uid://bcavufcwft4go" path="res://Assets/Cards/DoF_Dragon.tres" id="4_p68ct"]
+[ext_resource type="Resource" uid="uid://28rp350vdgex" path="res://Assets/Cards/DoF_Jester.tres" id="5_bqcaw"]
+[ext_resource type="Resource" uid="uid://bpj0v3fy23x6c" path="res://Assets/Cards/DoF_Knight.tres" id="6_gfj3x"]
+[ext_resource type="Resource" uid="uid://cgcbgqoou4glm" path="res://Assets/Cards/DoF_Rat.tres" id="7_yisuh"]
+[ext_resource type="Resource" uid="uid://c1ddmj4fm4m0l" path="res://Assets/Cards/DoF_Seer.tres" id="8_xyiia"]
+[ext_resource type="Resource" uid="uid://bac6f58pg0f7f" path="res://Assets/Cards/DoF_ShieldBearer.tres" id="9_wwcv8"]
+[ext_resource type="Resource" uid="uid://di4p31pxcilxl" path="res://Assets/Cards/DoF_Spy.tres" id="10_tvco6"]
+[ext_resource type="Resource" uid="uid://bdxm7h12m8cni" path="res://Assets/Cards/DoF_Squire.tres" id="11_78s3y"]
+[ext_resource type="Resource" uid="uid://bnb1yovlu3g4x" path="res://Assets/Cards/DoF_Thief.tres" id="12_32t2c"]
+[ext_resource type="Resource" uid="uid://edta11j3v18c" path="res://Assets/Cards/DoF_Witch.tres" id="13_1bh26"]
+[ext_resource type="Resource" uid="uid://t2qkqusj0xds" path="res://Assets/Cards/DoF_Wizard.tres" id="14_aaga3"]
+[ext_resource type="Script" uid="uid://lhb5ry3o8icy" path="res://addons/simple_cards/deck/card_deck.gd" id="15_7wdjk"]
+
+[resource]
+script = ExtResource("15_7wdjk")
+cards = Array[ExtResource("1_6emmq")]([ExtResource("2_6emmq"), ExtResource("3_r7liu"), ExtResource("4_p68ct"), ExtResource("5_bqcaw"), ExtResource("6_gfj3x"), ExtResource("7_yisuh"), ExtResource("8_xyiia"), ExtResource("9_wwcv8"), ExtResource("10_tvco6"), ExtResource("11_78s3y"), ExtResource("12_32t2c"), ExtResource("13_1bh26"), ExtResource("14_aaga3")])
+metadata/_custom_type_script = "uid://lhb5ry3o8icy"

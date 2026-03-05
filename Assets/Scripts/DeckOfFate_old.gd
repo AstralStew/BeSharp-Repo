@@ -1,4 +1,4 @@
-class_name DeckOfFate extends CanvasLayer
+class_name DeckOfFateOld extends CanvasLayer
 #Runs the game
 
 enum GlobalCombatResult {p1win,draw,p2win}
@@ -7,7 +7,7 @@ enum MyCombatResult {win,draw,loss}
 @onready var player_board_scene := preload("res://Assets/Scenes/PlayerBoard.tscn")
 
 @export_category("REFERENCES")
-static var instance:DeckOfFate = null
+static var instance:DeckOfFateOld = null
 @onready var phase_label: RichTextLabel = $PhaseLabel
 @onready var p1_score_label: RichTextLabel = $P1ScoreDesc_VB/P1Score_RTL
 @onready var p2_score_label: RichTextLabel = $P2ScoreDesc_VB/P2Score_RTL

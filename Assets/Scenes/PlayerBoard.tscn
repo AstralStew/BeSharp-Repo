@@ -1,0 +1,333 @@
+[gd_scene format=3 uid="uid://dlrb4am48yvfl"]
+
+[ext_resource type="Script" uid="uid://v3qbe6gbirid" path="res://Assets/Scripts/PlayerManager.gd" id="1_cd5tk"]
+[ext_resource type="Script" uid="uid://cj7pttaxyo1v0" path="res://Assets/Scripts/DoFDeckManager.gd" id="2_e8nkb"]
+[ext_resource type="Resource" uid="uid://b2if5vfroui2h" path="res://Assets/Decks/PlayerDeck.tres" id="3_5skf6"]
+[ext_resource type="Script" uid="uid://bbi8i6vef3f6y" path="res://addons/simple_cards/hand/card_hand.gd" id="4_iqlns"]
+[ext_resource type="Script" uid="uid://v4hj4p4kc0m" path="res://Assets/Scripts/card_slot.gd" id="5_kt667"]
+
+[node name="PlayerBoard" type="CanvasLayer" unique_id=757629375 node_paths=PackedStringArray("victory_slots")]
+script = ExtResource("1_cd5tk")
+victory_slots = [NodePath("Elements/VictoryDisplay/VictorySlot1"), NodePath("Elements/VictoryDisplay/VictorySlot2"), NodePath("Elements/VictoryDisplay/VictorySlot3"), NodePath("Elements/VictoryDisplay/VictorySlot4"), NodePath("Elements/VictoryDisplay/VictorySlot5"), NodePath("Elements/VictoryDisplay/VictorySlot6")]
+
+[node name="DeckManager" type="Node" parent="." unique_id=53235611 node_paths=PackedStringArray("draw_pile", "discard_pile")]
+script = ExtResource("2_e8nkb")
+show_cards = true
+starting_deck = ExtResource("3_5skf6")
+draw_pile = NodePath("../Elements/Draw")
+discard_pile = NodePath("../Elements/Discard")
+
+[node name="Elements" type="Control" parent="." unique_id=1647203101]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Draw" type="Control" parent="Elements" unique_id=479887797]
+custom_minimum_size = Vector2(90, 122)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 272.0
+offset_top = 366.0
+offset_right = 362.0
+offset_bottom = 488.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("4_iqlns")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="ColorRect" type="ColorRect" parent="Elements/Draw" unique_id=281450756]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 1, 0.20000005, 0.5019608)
+
+[node name="Discard" type="Control" parent="Elements" unique_id=2077962331]
+custom_minimum_size = Vector2(90, 122)
+anchors_preset = 0
+offset_left = -363.0
+offset_top = 366.0
+offset_right = -273.0
+offset_bottom = 488.0
+script = ExtResource("4_iqlns")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="ColorRect" type="ColorRect" parent="Elements/Discard" unique_id=1423541363]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="LeaderSlot" type="Control" parent="Elements" unique_id=1541383893]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 82.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_iqlns")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 1
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="ColorRect" type="ColorRect" parent="Elements/LeaderSlot" unique_id=1680486609]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0, 0, 0.5019608)
+
+[node name="SupportSlot" type="Control" parent="Elements" unique_id=1204040018]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 121.0
+offset_top = 110.0
+offset_right = 121.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_iqlns")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 1
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="ColorRect" type="ColorRect" parent="Elements/SupportSlot" unique_id=1051957669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0.049999714, 1, 0.5019608)
+
+[node name="Hand" type="Control" parent="Elements" unique_id=1162142733]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 426.0
+offset_bottom = 426.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("4_iqlns")
+shape = 0
+card_spacing = 80.0
+metadata/_custom_type_script = "uid://bbi8i6vef3f6y"
+
+[node name="ColorRect" type="ColorRect" parent="Elements/Hand" unique_id=645511753]
+z_index = -2
+custom_minimum_size = Vector2(300, 122)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.22526532, 0.2252653, 0.2252653, 0.5019608)
+
+[node name="VictoryDisplay" type="HBoxContainer" parent="Elements" unique_id=599376599]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = 213.0
+offset_right = 280.0
+offset_bottom = 335.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="VictorySlot1" type="Control" parent="Elements/VictoryDisplay" unique_id=1768331778 node_paths=PackedStringArray("adjacent_right")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("5_kt667")
+adjacent_right = NodePath("../VictorySlot2")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 2
+
+[node name="ColorRect" type="ColorRect" parent="Elements/VictoryDisplay/VictorySlot1" unique_id=1104092851]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.5019608)
+
+[node name="VictorySlot2" type="Control" parent="Elements/VictoryDisplay" unique_id=1602954071 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("5_kt667")
+adjacent_left = NodePath("../VictorySlot1")
+adjacent_right = NodePath("../VictorySlot3")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 2
+
+[node name="ColorRect" type="ColorRect" parent="Elements/VictoryDisplay/VictorySlot2" unique_id=1172910491]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.5019608)
+
+[node name="VictorySlot3" type="Control" parent="Elements/VictoryDisplay" unique_id=1593793003 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("5_kt667")
+adjacent_left = NodePath("../VictorySlot2")
+adjacent_right = NodePath("../VictorySlot4")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 2
+
+[node name="ColorRect" type="ColorRect" parent="Elements/VictoryDisplay/VictorySlot3" unique_id=1786297927]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.5019608)
+
+[node name="VictorySlot4" type="Control" parent="Elements/VictoryDisplay" unique_id=837856529 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("5_kt667")
+adjacent_left = NodePath("../VictorySlot3")
+adjacent_right = NodePath("../VictorySlot5")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 2
+
+[node name="ColorRect" type="ColorRect" parent="Elements/VictoryDisplay/VictorySlot4" unique_id=1051264767]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.5019608)
+
+[node name="VictorySlot5" type="Control" parent="Elements/VictoryDisplay" unique_id=290736557 node_paths=PackedStringArray("adjacent_left", "adjacent_right")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("5_kt667")
+adjacent_left = NodePath("../VictorySlot4")
+adjacent_right = NodePath("../VictorySlot6")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 2
+
+[node name="ColorRect" type="ColorRect" parent="Elements/VictoryDisplay/VictorySlot5" unique_id=2073664708]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.5019608)
+
+[node name="VictorySlot6" type="Control" parent="Elements/VictoryDisplay" unique_id=1394960510 node_paths=PackedStringArray("adjacent_left")]
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("5_kt667")
+adjacent_left = NodePath("../VictorySlot5")
+shape = 0
+card_spacing = 0.0
+enable_reordering = false
+max_hand_size = 2
+
+[node name="ColorRect" type="ColorRect" parent="Elements/VictoryDisplay/VictorySlot6" unique_id=1681939921]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -61.0
+offset_right = 45.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.5019608)

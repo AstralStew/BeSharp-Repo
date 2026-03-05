@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="DofSpyStyleResource" format=3 uid="uid://b6cobb5d04rtv"]
+[gd_resource type="Resource" script_class="DofSpyStyleResource" format=3 uid="uid://di4p31pxcilxl"]
 
 [ext_resource type="Script" uid="uid://da5me3nl84oaj" path="res://Assets/Scripts/Card Style Resources/dof_spy_style_res.gd" id="1_2a6ni"]
-[ext_resource type="Texture2D" uid="uid://dmbbgcppdby5o" path="res://Assets/Images/art/spy.jpg" id="2_2a6ni"]
+[ext_resource type="Texture2D" uid="uid://dmbbgcppdby5o" path="res://Assets/Images/art/spy.jpg" id="2_2r3tb"]
 
 [resource]
 script = ExtResource("1_2a6ni")
 card_name = "Spy"
 card_type = 1
 strength = 1
-top_texture = ExtResource("2_2a6ni")
+top_texture = ExtResource("2_2r3tb")
 custom_layout_name = &"DoF_Layout"
 metadata/_custom_type_script = "uid://kvpm60dhjyt7"
